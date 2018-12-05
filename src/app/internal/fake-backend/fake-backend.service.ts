@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018 Dematic, Corp.
+ * Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
+ */
+
 import {of as observableOf, throwError as observableThrowError, Observable} from 'rxjs';
 
 import {dematerialize, delay, materialize, mergeMap} from 'rxjs/operators';
