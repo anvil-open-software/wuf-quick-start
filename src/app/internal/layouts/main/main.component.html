@@ -1,0 +1,29 @@
+<kg-view-main [logoRoute]="logoRoute">
+    <ng-container sidebarNavigation>
+        <kg-navigation
+                [data]="navData"
+                [position]="configService.config.navigation.position"
+                [iconPosition]="configService.config.navigation.iconPosition"
+                [alignment]="configService.config.navigation.alignment"
+        ></kg-navigation>
+    </ng-container>
+
+    <ng-container sidebarFooter>
+        <!--<kg-sidebar-footer [dataUrl]="footerDataUrl"></kg-sidebar-footer>-->
+        <kg-sidebar-footer [copyrightName]="configService.config.copyrightName"></kg-sidebar-footer>
+    </ng-container>
+
+    <ng-container toolbarContent>
+        <!--Optionally add app-level title here-->
+        [app-level title here (optional)]
+    </ng-container>
+
+    <ng-container utilities>
+        <!--Add app-level utilities here-->
+        [app-level utilities here]
+    </ng-container>
+
+    <ng-container main>
+        <router-outlet></router-outlet>
+    </ng-container>
+</kg-view-main>

@@ -1,0 +1,171 @@
+<kg-content-header>
+    <!-- insert header content here -->
+    <ng-container toolbarContent>
+        <kg-breadcrumb
+                [items]="[{ link: '/', label: 'Home' }, { link: null, label: 'Page 1', active: true }]"></kg-breadcrumb>
+    </ng-container>
+
+    <ng-container utilities>
+        [page-level utilities here]
+    </ng-container>
+</kg-content-header>
+
+<kg-content-main>
+    <!-- insert content here -->
+
+    <h1>Page 1</h1>
+
+    <p>Placeholder page.</p>
+
+    <hr>
+
+    <h3>Example Dark Theme Use</h3>
+
+    <mat-slide-toggle color="primary" [(checked)]="configService.config.themeDark"
+                      (change)="onDarkThemeChange($event.checked)">Dark Theme
+    </mat-slide-toggle>
+
+    <hr>
+
+    <h3>Example Angular Material Buttons</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Basic Buttons</th>
+            <th>Raised Buttons</th>
+            <th>Icon Buttons</th>
+            <th>Fab Buttons</th>
+            <th>Mini Fab Buttons</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <button mat-button>Basic</button>
+            </td>
+            <td>
+                <button mat-raised-button>Basic</button>
+            </td>
+            <td>
+                <button mat-icon-button>
+                    <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+                </button>
+            </td>
+            <td>
+                <button mat-fab>Basic</button>
+            </td>
+            <td>
+                <button mat-mini-fab>Basic</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button mat-button color="primary">Primary</button>
+            </td>
+            <td>
+                <button mat-raised-button color="primary">Primary</button>
+            </td>
+            <td>
+                <button mat-icon-button color="primary">
+                    <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+                </button>
+            </td>
+            <td>
+                <button mat-fab color="primary">Primary</button>
+            </td>
+            <td>
+                <button mat-mini-fab color="primary">Primary</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h3>Example Native Web Component:</h3>
+
+    <kg-code-sample
+            showCopyButton
+            type="html"
+            copy-label="Copy"
+            copy-label-error="Error"
+            copy-label-done="Done"
+            [code]="sampleCode"
+    >
+    </kg-code-sample>
+
+    <hr>
+
+    <h3>Example Polymer 3.0 Component:</h3>
+
+    <start-polymer3>
+        <!--
+        Placeholder Content: This content will be replaced when <start-polymer3>
+        is rendered.
+
+        Placeholder content improves perceived render time and makes sure
+        users with JavaScript disabled will see something helpful.
+      -->
+        <p>Could not render the custom element. Check that JavaScript is enabled.</p>
+    </start-polymer3>
+
+    <p *ngIf="clickedItem">Clicked Item: {{clickedItem.firstName}} {{clickedItem.lastName}}</p>
+
+    <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=20" handle-as="json"
+               (last-response-changed)="onLastResponseChanged($event)"></iron-ajax>
+
+    <hr>
+
+    <h3>Example Vaadin Grid:</h3>
+
+    <vaadin-grid theme="column-borders" [items]="users" column-reordering-allowed multi-sort>
+        <!--vaadin-grid-selection-column auto-select> </vaadin-grid-selection-column-->
+
+        <vaadin-grid-column resizable width="12em">
+            <template #template class="header" ngNonBindable>
+                <vaadin-grid-sorter path="firstName">
+                    <vaadin-grid-filter aria-label="firstName" path="firstName" value="{{_filterFirstName}}">
+                        <paper-input value="{{_filterFirstName}}" focus-target label="First Name"></paper-input>
+                    </vaadin-grid-filter>
+                    <iron-icon icon="icons:arrow-upward"></iron-icon>
+                </vaadin-grid-sorter>
+            </template>
+            <template ngNonBindable>[[item.firstName]]</template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="9em">
+            <template class="header" ngNonBindable>
+                <vaadin-grid-sorter path="lastName">Last Name
+                    <iron-icon icon="icons:arrow-upward"></iron-icon>
+                </vaadin-grid-sorter>
+            </template>
+            <template ngNonBindable>[[item.lastName]]</template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="15em" flex-grow="2">
+            <template class="header" ngNonBindable>
+                <vaadin-grid-sorter path="address.street">Address
+                    <iron-icon icon="icons:arrow-upward"></iron-icon>
+                </vaadin-grid-sorter>
+            </template>
+            <template ngNonBindable>[[item.address.street]], [[item.address.city]]</template>
+        </vaadin-grid-column>
+
+        <vaadin-grid-column width="15em">
+            <template class="header" ngNonBindable>
+                Install Application
+            </template>
+            <template ngNonBindable>
+                <paper-icon-button data-item="[[item]]" icon="add-circle"
+                                   on-click="rowButtonClicked"></paper-icon-button>
+            </template>
+        </vaadin-grid-column>
+    </vaadin-grid>
+</kg-content-main>
+
+<kg-content-footer>
+    <!-- insert footer content here -->
+    [page footer content here]
+</kg-content-footer>
+
