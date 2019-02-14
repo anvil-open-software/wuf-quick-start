@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@anviltech/wuf-quickstart": {
+    "@anviltech/wuf-quick-start": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -71,21 +71,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "@anviltech/wuf-quickstart:build"
+            "browserTarget": "@anviltech/wuf-quick-start:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "@anviltech/wuf-quickstart:build:production"
+              "browserTarget": "@anviltech/wuf-quick-start:build:production"
             },
             "staging": {
-              "browserTarget": "@anviltech/wuf-quickstart:build:staging"
+              "browserTarget": "@anviltech/wuf-quick-start:build:staging"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "@anviltech/wuf-quickstart:build"
+            "browserTarget": "@anviltech/wuf-quick-start:build"
           }
         },
         "test": {
@@ -125,7 +125,7 @@
         }
       }
     },
-    "@anviltech/wuf-quickstart-e2e": {
+    "@anviltech/wuf-quick-start-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",

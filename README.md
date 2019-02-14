@@ -77,8 +77,7 @@ The bootstrap script will install packages and then do an `ng build --prod` for 
 
 Once the above steps are completed, your new app should be ready to run (see below).
 
-
-### 1. Run the New App
+### 4. Run the New App
 
 ```bash
 $ npm run start

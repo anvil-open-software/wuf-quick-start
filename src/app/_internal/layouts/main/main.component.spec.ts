@@ -11,7 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
 import {WufNavigationModule, WufNavigationService} from '@anviltech/wuf-ang-navigation';
-import {WufLayoutModule} from '@anviltech/wuf-ang-layout';
+import { WufLayoutModule, WufLayoutService, WufSidebarService } from '@anviltech/wuf-ang-layout';
 
 import {LayoutMainComponent} from './main.component';
 
@@ -33,6 +33,8 @@ describe('LayoutMainComponent', () => {
             ],
             providers: [
                 WufConfigurationService,
+                WufSidebarService,
+                WufLayoutService,
                 WufNavigationService
             ]
         })
