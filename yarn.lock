@@ -334,9 +334,9 @@
     "@vaadin/vaadin-core" "10.0.0-pre.3"
 
 "@anviltech/wuf-web-assets@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@anviltech/wuf-web-assets/-/wuf-web-assets-1.0.0.tgz#73bfe8d8f3f0f6c75f6c75e2356ca92d8d3bfb65"
-  integrity sha512-ScxU6sAX/Q3DXwvf0+bFeOdfIs+IiB72a0wyrTEFi1Uh/lEXLshGfSeLV+vuTS93vTimqXguRpcfnzs5vV+JKg==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@anviltech/wuf-web-assets/-/wuf-web-assets-1.0.1.tgz#ab0a2d29fa8911e62927e741cd36af2d49eb75ac"
+  integrity sha512-vvBN5GouQ345GXhB7YXX0xkxVNH4rji8TqeZ7bGdCOnXmx7esgjhZDH4XA711zu0Nt7LsRX1wx/x75GnB4dg5g==
 
 "@anviltech/wuf-web-code-sample@^1.0.0":
   version "1.0.0"
