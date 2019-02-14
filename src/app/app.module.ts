@@ -16,38 +16,38 @@ import {AppComponent} from './app.component';
 import {RoutesModule} from './app-routes';
 
 /***** Imports from WUF common-components library *****/
-import {KgNavigationModule} from '@kion/kg-ang-navigation';
-import {KgConfigurationModule, KgConfigurationService} from '@kion/kg-ang-configuration';
-import {KgLayoutModule, KgLayoutService} from '@kion/kg-ang-layout';
-import '@kion/kg-web-code-sample'; // code sample web component
+import {WufNavigationModule} from '@anviltech/wuf-ang-navigation';
+import {WufConfigurationModule, WufConfigurationService} from '@anviltech/wuf-ang-configuration';
+import {WufLayoutModule, WufLayoutService} from '@anviltech/wuf-ang-layout';
+import '@anviltech/wuf-web-code-sample'; // code sample web component
 
 /***** 3rd party imports *****/
-import {CustomMaterialModule} from './internal/material.module';
+import {CustomMaterialModule} from './_internal/material.module';
 import {OrigamiModule} from '@codebakery/origami';
 import '@vaadin/vaadin-grid/vaadin-grid-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
-import '@kion/kg-poly-grid-styles';
+import '@anviltech/wuf-poly-grid-styles';
 
 /***** Fake backend *****/
 // Delete this for a production app
-import {fakeBackendProvider} from './internal/fake-backend/fake-backend.service';
+import {fakeBackendProvider} from './_internal/fake-backend/fake-backend.service';
 
 /***** Error pages *****/
 import {PageNotFoundComponent} from './other/page-not-found/page-not-found.component';
 import {ForbiddenComponent} from './other/forbidden/forbidden.component';
 
 /***** Layouts *****/
-import {LayoutsModule} from './internal/layouts/layouts.module';
+import {LayoutsModule} from './_internal/layouts/layouts.module';
 
 /***** Misc placeholder pages *****/
 import {SettingsComponent} from './other/settings/settings.component';
 
 /***** Services *****/
-import {UserService} from './internal/services/user.service';
-import {NavigationService} from './internal/services/navigation.service';
-import {FooterService} from './internal/services/footer.service';
+import {UserService} from './_internal/services/user.service';
+import {NavigationService} from './_internal/services/navigation.service';
+import {FooterService} from './_internal/services/footer.service';
 
 /***** Pages *****/
 import {ExamplePage1Component} from './pages/example-page-1/example-page-1.component';
@@ -70,9 +70,9 @@ import {ExamplePage2Component} from './pages/example-page-2/example-page-2.compo
         LayoutsModule.forRoot(),
 
         // WUF
-        KgConfigurationModule.forRoot(),
-        KgLayoutModule.forRoot(),
-        KgNavigationModule.forRoot(),
+        WufConfigurationModule.forRoot(),
+        WufLayoutModule.forRoot(),
+        WufNavigationModule.forRoot(),
 
         // 3rd Party Imports
         CustomMaterialModule.forRoot(), // Load all Angular Material modules
@@ -95,8 +95,8 @@ import {ExamplePage2Component} from './pages/example-page-2/example-page-2.compo
         ExamplePage2Component
     ],
     providers: [
-        KgConfigurationService,
-        KgLayoutService,
+        WufConfigurationService,
+        WufLayoutService,
         UserService,
         NavigationService,
         FooterService,

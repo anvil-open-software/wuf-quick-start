@@ -4,13 +4,13 @@
  */
 
 export const configuration = {
-    id: 'kg-quickstart-app',
-    name: 'Quickstart Application',
-    copyrightName: 'Dematic, Inc.',
+    id: 'wuf-quick-start',
+    name: 'WUF Quick Start',
+    copyrightName: 'ACME, Inc.',
     navigation: {
         position: 'left',
         iconPosition: 'left',
         alignment: 'left'
     },
-    theme: 'dematic'
+    theme: 'default'
 };

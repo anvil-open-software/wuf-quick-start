@@ -11,12 +11,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {Routes} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {KgConfigurationService} from '@kion/kg-ang-configuration';
+import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
 
 import {AppComponent} from './app.component';
 import {RoutesModule} from './app-routes';
 import {ExamplePage1Component} from './pages/example-page-1/example-page-1.component';
-import {UserService} from './internal/services/user.service';
+import {UserService} from './_internal/services/user.service';
 
 
 describe('AppComponent', () => {
@@ -44,7 +44,7 @@ describe('AppComponent', () => {
             ],
             providers: [
                 RoutesModule,
-                KgConfigurationService,
+                WufConfigurationService,
                 UserService
             ]
         });

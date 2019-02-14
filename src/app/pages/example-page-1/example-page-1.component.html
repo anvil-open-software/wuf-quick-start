@@ -3,19 +3,19 @@
   ~ Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
   -->
 
-<kg-content-header>
+<wuf-content-header>
     <!-- insert header content here -->
-    <ng-container toolbarContent>
-        <kg-breadcrumb
-                [items]="[{ link: '/', label: 'Home' }, { link: null, label: 'Page 1', active: true }]"></kg-breadcrumb>
+    <ng-container toolbarLeft>
+        <wuf-breadcrumb
+                [items]="[{ link: '/', label: 'Home' }, { link: null, label: 'Page 1', active: true }]"></wuf-breadcrumb>
     </ng-container>
 
-    <ng-container utilities>
+    <ng-container toolbarRight>
         [page-level utilities here]
     </ng-container>
-</kg-content-header>
+</wuf-content-header>
 
-<kg-content-main>
+<wuf-content-main>
     <!-- insert content here -->
 
     <h1>Page 1</h1>
@@ -90,7 +90,7 @@
 
     <h3>Example Native Web Component:</h3>
 
-    <kg-code-sample
+    <wuf-code-sample
             showCopyButton
             type="html"
             copy-label="Copy"
@@ -98,7 +98,7 @@
             copy-label-done="Done"
             [code]="sampleCode"
     >
-    </kg-code-sample>
+    </wuf-code-sample>
 
     <hr>
 
@@ -167,10 +167,10 @@
             </template>
         </vaadin-grid-column>
     </vaadin-grid>
-</kg-content-main>
+</wuf-content-main>
 
-<kg-content-footer>
+<wuf-content-footer>
     <!-- insert footer content here -->
     [page footer content here]
-</kg-content-footer>
+</wuf-content-footer>
 

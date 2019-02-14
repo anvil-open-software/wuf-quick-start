@@ -5,7 +5,7 @@
 
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {KgConfigurationService} from '@kion/kg-ang-configuration';
+import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
 import { polymerHost } from '@codebakery/origami/templates';
 
 import '@polymer/paper-input/paper-input.js';
@@ -33,7 +33,7 @@ export class ExamplePage1Component implements OnInit {
     public users: any;
     public clickedItem: any;
 
-    constructor(public configService: KgConfigurationService) {
+    constructor(public configService: WufConfigurationService) {
     }
 
     ngOnInit() {
@@ -51,7 +51,7 @@ export class ExamplePage1Component implements OnInit {
     }
 
     setDarkTheme(applyDark: boolean) {
-        // Convert to config properties and send them to the KgConfigurationService
+        // Convert to config properties and send them to the WufConfigurationService
         this.configService.config = {
             themeDark: applyDark
         };

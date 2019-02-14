@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@kion/kg-quickstart": {
+    "@anviltech/wuf-quickstart": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -22,12 +22,7 @@
               ]
             },
             "assets": [
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@kion/kg-web-assets/assets/images",
-                "output": "/assets/kion/kg-web-assets/images"
-              }
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
@@ -76,21 +71,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "@kion/kg-quickstart:build"
+            "browserTarget": "@anviltech/wuf-quickstart:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "@kion/kg-quickstart:build:production"
+              "browserTarget": "@anviltech/wuf-quickstart:build:production"
             },
             "staging": {
-              "browserTarget": "@kion/kg-quickstart:build:staging"
+              "browserTarget": "@anviltech/wuf-quickstart:build:staging"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "@kion/kg-quickstart:build"
+            "browserTarget": "@anviltech/wuf-quickstart:build"
           }
         },
         "test": {
@@ -112,12 +107,7 @@
               "src/styles.scss"
             ],
             "assets": [
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@kion/kg-web-assets/images",
-                "output": "/assets/kion/kg-web-assets/images"
-              }
+              "src/assets"
             ]
           }
         },
@@ -135,7 +125,7 @@
         }
       }
     },
-    "@kion/kg-quickstart-e2e": {
+    "@anviltech/wuf-quickstart-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -144,7 +134,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "@kion/kg-quickstart:serve"
+            "devServerTarget": "@anviltech/wuf-quick-start:serve"
           }
         },
         "lint": {
@@ -161,7 +151,7 @@
       }
     }
   },
-  "defaultProject": "@kion/kg-quickstart",
+  "defaultProject": "@anviltech/wuf-quick-start",
   "schematics": {
     "@schematics/angular:component": {
       "inlineTemplate": false,

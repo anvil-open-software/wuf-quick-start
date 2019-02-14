@@ -14,11 +14,11 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RoutesModule} from './routes';
 
 /***** Import WUF *****/
-import {KgLayoutModule} from '@kion/kg-ang-layout';
-import {KgNavigationModule} from '@kion/kg-ang-navigation';
+import {WufLayoutModule} from '@anviltech/wuf-ang-layout';
+import {WufNavigationModule} from '@anviltech/wuf-ang-navigation';
 
 /***** 3rd party imports *****/
-import {CustomMaterialModule} from '../../internal/material.module';
+import {CustomMaterialModule} from '../../_internal/material.module';
 import {OrigamiModule} from '@codebakery/origami';
 
 /***** Import page modules *****/
@@ -39,8 +39,7 @@ import {FeatureModulePage2Component} from './feature-module-page-2/feature-modul
         CommonModule,
 
         // WUF
-        KgLayoutModule,
-        // KgNavigationModule,
+        WufLayoutModule,
 
         // 3rd Party Imports
         CustomMaterialModule,
