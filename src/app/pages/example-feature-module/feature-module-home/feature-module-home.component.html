@@ -3,19 +3,19 @@
   ~ Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
   -->
 
-<kg-content-header>
+<wuf-content-header>
     <!-- insert header content here -->
-    <ng-container toolbarContent>
-        <kg-breadcrumb
-                [items]="[{ link: '/', label: 'Home' }, { link: null, label: 'Feature Module', active: true }]"></kg-breadcrumb>
+    <ng-container toolbarLeft>
+        <wuf-breadcrumb
+                [items]="[{ link: '/', label: 'Home' }, { link: null, label: 'Feature Module', active: true }]"></wuf-breadcrumb>
     </ng-container>
 
-    <ng-container utilities>
+    <ng-container toolbarRight>
         [page-level utilities here]
     </ng-container>
-</kg-content-header>
+</wuf-content-header>
 
-<kg-content-main>
+<wuf-content-main>
     <!-- insert content here -->
 
     <h1>Lazy-Loaded Feature Module</h1>
@@ -33,10 +33,10 @@
 
     <p>To take advantage of this design pattern for your app, delete example-page-1 and example-page-2 at src/app/pages/
         and transform this sub-module (example-feature-module) as you see fit.</p>
-</kg-content-main>
+</wuf-content-main>
 
-<kg-content-footer>
+<wuf-content-footer>
     <!-- insert footer content here -->
     [page footer content here]
-</kg-content-footer>
+</wuf-content-footer>
 

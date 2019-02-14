@@ -6,9 +6,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
-// import {KgModule} from '@kion/kg-ang-library';
-import {KgLayoutModule} from '@kion/kg-ang-layout';
-import {KgNavigationModule} from '@kion/kg-ang-navigation';
+import {WufLayoutModule} from '@anviltech/wuf-ang-layout';
+import {WufNavigationModule} from '@anviltech/wuf-ang-navigation';
 
 import {LayoutBasicComponent} from './basic.component';
 
@@ -22,8 +21,8 @@ describe('LayoutBasicComponent', () => {
             declarations: [LayoutBasicComponent],
             imports: [
                 RouterTestingModule,
-                KgLayoutModule,
-                KgNavigationModule
+                WufLayoutModule,
+                WufNavigationModule
             ]
         })
         .compileComponents();

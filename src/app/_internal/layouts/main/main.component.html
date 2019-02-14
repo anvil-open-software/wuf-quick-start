@@ -1,0 +1,34 @@
+<!--
+  ~ Copyright (c) 2018 Dematic, Corp.
+  ~ Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
+  -->
+
+<wuf-view-main [logoRoute]="logoRoute">
+    <ng-container sidebarNavigation>
+        <wuf-navigation
+            [data]="navData"
+            [position]="configService.config.navigation.position"
+            [iconPosition]="configService.config.navigation.iconPosition"
+            [alignment]="configService.config.navigation.alignment"
+        ></wuf-navigation>
+    </ng-container>
+
+    <ng-container sidebarFooter>
+        <!--<wuf-sidebar-footer [dataUrl]="footerDataUrl"></wuf-sidebar-footer>-->
+        <wuf-sidebar-footer [copyrightName]="configService.config.copyrightName"></wuf-sidebar-footer>
+    </ng-container>
+
+    <ng-container toolbarLeft>
+        <!--Optionally add app-level title here-->
+        {{appName}}
+    </ng-container>
+
+    <ng-container toolbarRight>
+        <!--Add app-level utilities here-->
+        [app-level utilities here]
+    </ng-container>
+
+    <ng-container main>
+        <router-outlet></router-outlet>
+    </ng-container>
+</wuf-view-main>

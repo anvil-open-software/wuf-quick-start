@@ -10,7 +10,7 @@ import {DebugElement} from '@angular/core';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import {KgContentFooterService} from '@kion/kg-ang-layout';
+import {WufContentFooterService} from '@anviltech/wuf-ang-layout';
 import {FeatureModulePage1Component} from './feature-module-page-1.component';
 
 
@@ -27,7 +27,7 @@ describe('FeatureModulePage1Component', () => {
                 FeatureModulePage1Component
             ],
             providers: [
-                KgContentFooterService
+                WufContentFooterService
             ],
             imports: [
                 RouterTestingModule

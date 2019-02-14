@@ -5,22 +5,22 @@
 
 import {Component, ViewEncapsulation, OnInit, Renderer2, OnDestroy} from '@angular/core';
 
-import {KgConfigurationService} from '@kion/kg-ang-configuration';
-import {UserService} from './internal/services/user.service';
-import {deepMerge} from '@kion/kg-ang-utils';
+import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
+import {UserService} from './_internal/services/user.service';
+import {deepMerge} from '@anviltech/wuf-ang-utils';
 
 // App configuration
-import {configuration} from './internal/configuration/configuration';
+import {configuration} from './_internal/configuration/configuration';
 
 // The following imports are only used for demo purposes
-import {FakeUser} from './internal/fake-backend/data/user';
+import {FakeUser} from './_internal/fake-backend/data/user';
 
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    providers: [KgConfigurationService, UserService],
+    providers: [WufConfigurationService, UserService],
     encapsulation: ViewEncapsulation.Emulated
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     configSubscription: any;
     currentThemeId: string;
 
-    constructor(private configService: KgConfigurationService, private renderer: Renderer2, private userService: UserService) {
+    constructor(private configService: WufConfigurationService, private renderer: Renderer2, private userService: UserService) {
     }
 
     ngOnInit() {
@@ -66,12 +66,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.userService.authenticate(fakeLoginData).subscribe(
             data => {
                 // success
-                let user = {
+                const user = {
                     user: data
                 };
 
                 // Merge received user data with configuration data from local storage
-                let mergedConfiguration = this.getMergedConfiguration(user);
+                const mergedConfiguration = this.getMergedConfiguration(user);
 
                 // Send merged configuration data to the config service (which updates the UI accordingly)
                 this.configService.config = mergedConfiguration;
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
             3. If no local or stored settings values exist, use default application settings pulled from Angular's environment properties
             4. If no default application settings exist in Angular's environment properties, use the default settings baked into the application and application components.  Nothing to do here since those properties live in the components themselves.
         */
-        let key = this.configService.getStorageKey(this.config.id, userData.user.id);
+        const key = this.configService.getStorageKey(this.config.id, userData.user.id);
 
         return deepMerge(
             {},
@@ -118,6 +118,11 @@ export class AppComponent implements OnInit, OnDestroy {
     onConfigChange(newConfig: any) {
         // Received notification of a config update.  Do something with each updated property, if applicable.
 
+        // Apply a theme
+        if (newConfig.hasOwnProperty('theme') && newConfig.theme !== this.currentThemeId) {
+            this.applyTheme(newConfig.theme);
+        }
+
         // Apply dark theme
         if (newConfig.hasOwnProperty('themeDark')) {
             this.applyDarkTheme(newConfig.themeDark);
@@ -127,14 +132,20 @@ export class AppComponent implements OnInit, OnDestroy {
         // (This is where you should send configuration updates back to the server for server-side persistence)
     }
 
+    applyTheme(themeId: string) {
+        // Set the 'wuf-theme' property on the <html> element.  This is what makes the SCSS selectors inside /src/assets/dummydata/branding work.
+        this.currentThemeId = themeId;
+        this.renderer.setAttribute(document.documentElement, 'wuf-theme', themeId);
+    }
+
     applyDarkTheme(applyDark: boolean) {
         if (!applyDark) {
-            // Remove the 'kg-theme-dark' property, if no longer applicable
-            this.renderer.removeAttribute(document.documentElement, 'kg-theme-dark');
+            // Remove the 'wuf-theme-dark' property, if no longer applicable
+            this.renderer.removeAttribute(document.documentElement, 'wuf-theme-dark');
         }
         else if (applyDark) {
-            // Set the 'kg-theme-dark' property on the <html> element.  This is what makes the SCSS selectors inside /src/assets/dummydata/branding work.
-            this.renderer.setAttribute(document.documentElement, 'kg-theme-dark', 'true');
+            // Set the 'wuf-theme-dark' property on the <html> element.  This is what makes the SCSS selectors inside /src/assets/dummydata/branding work.
+            this.renderer.setAttribute(document.documentElement, 'wuf-theme-dark', 'true');
         }
     }
 

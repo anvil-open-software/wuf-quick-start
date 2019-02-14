@@ -1,6 +1,6 @@
 WUF Quickstart Application
 =============================
-The WUF Quickstart Application, which is a part of the WUF repos at [https://gitlab.dematic.com/cloud_visualization_services](https://gitlab.dematic.com/cloud_visualization_services), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch. 
+The WUF Quickstart Application, which is a part of the WUF repos at [https://github.com/anvil-open-software/wuf](https://github.com/anvil-open-software/wuf), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch. 
 
 
 Installation and Setup
@@ -18,39 +18,16 @@ Follow the steps below to set up your development environment and install depend
 
 #### Dependencies
 The following are dependencies for WUF development:
-* [node](https://nodejs.org/en/) - A JavaScript runtime built on Chrome's V8 JavaScript engine. 
-* [npm](https://www.npmjs.com/) - Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world and we use it extensively.  This is usually installed along with node by default.
-* [Angular-CLI](https://github.com/angular/angular-cli) - A collection of command line tools to create and develop a new Angular application.
-* [Angular](https://angular.io/) - There is no need to install this since it is installed by Angular-CLI.
-* [Typescript](https://www.typescriptlang.org/) - Typescript is a typed superset of JavaScript that compiles to plain JavaScript and it is the language in which all of our Angular application development is done.
-
-#### Configure NPM to Access the Dematic Artifactory NPM Registry
-In order for your NPM command line client to work with Artifactory you will first need to set up your `.npmrc` file with the necessary credentials. For getting authentication details run the following command:
-
-```bash
-$ curl -u "your KION username:your KION password" "https://artifactory.dematic.com/artifactory/api/npm/npm-local/auth/kion"
-```
-
-The response should be pasted in the `~/.npmrc` (in Windows `%USERPROFILE%/.npmrc`) file, as follows:
-```text
-ca=
-strict-ssl=false
-always-auth=false
-@kion:registry=https://artifactory.dematic.com/artifactory/api/npm/npm-local/
-//artifactory.dematic.com/artifactory/api/npm/npm-local/:_password=<your encoded password>
-//artifactory.dematic.com/artifactory/api/npm/npm-local/:username=luvaas
-//artifactory.dematic.com/artifactory/api/npm/npm-local/:email=Darren.Luvaas@dematic.com
-//artifactory.dematic.com/artifactory/api/npm/npm-local/:always-auth=true
-```
-
-***NOTE:*** If the port number (:443) appears in the output, be sure to remove the port numbers or you will get authentication errors.
-***NOTE:*** Because the values for the password property will change when your corporate password changes (i.e., every 90 days), you will need to run the above command whenever your corporate password changes and update your .npmrc file accordingly.
+* [Node.js](https://nodejs.org/en/) version 8.0.0 or greater, installed globally - A JavaScript runtime built on Chrome's V8 JavaScript engine. 
+* [Yarn](https://yarnpkg.com/en/) version 1.10.0 or greater, installed globally - A dependency management system that replaces NPM.  Yarn is required over NPM for WUF development because of WUF's dependency on Yarn Workspaces for inter-linking package dependencies.  Do not use NPM with WUF because it has the potential to conflict with Yarn and cause problems.
+* [Angular](https://angular.io/guide/quickstart) version 6.1.0 or greater, installed globally - This is installation includes Angular-CLI.
+* [Typescript](https://www.typescriptlang.org/) version 2.9.2 or greater, installed globally - Typescript is a typed superset of JavaScript that compiles to plain JavaScript and it is the language in which all of our Angular application development is done.
 
 ### 2. Create a New Project Based on the Quickstart App 
 
 Clone this repo into a new project folder (e.g., `my-proj`):
 ```bash
-git clone https://gitlab.dematic.com/cloud_visualization_services/quickstart-app
+git clone https://github.com/anvil-open-software/wuf-quick-start
 cd my-proj
 ```
 
@@ -71,9 +48,9 @@ git commit -m "Initial commit"
 
 Create a *remote repository* for this project on the service of your choice.
 
-Grab its address (e.g. *`https://gitlab.dematic.com/<my-org>/<project-name>.git`*) and push the *local repo* to the *remote*:
+Grab its address (e.g. *`https://github.com/<my-org>/<project-name>.git`*) and push the *local repo* to the *remote*:
 ```bash
-git remote add origin https://gitlab.dematic.com/<my-org>/<project-name>
+git remote add origin https://github.com/<my-org>/<project-name>
 git push -u origin master
 ```
 
@@ -88,7 +65,13 @@ Follow these steps to bootstrap your new app:
  $ npm run bootstrap
 ```
 
-The bootstrap script will run `npm install`, then do an `ng build --prod` for the new app.
+OR
+
+```bash
+ $ yarn bootstrap
+```
+
+The bootstrap script will install packages and then do an `ng build --prod` for the new app.
 
 **NOTE:** The bootstrap script may take a while when run the first time.  
 
@@ -101,9 +84,14 @@ Once the above steps are completed, your new app should be ready to run (see bel
 $ npm run start
 ```
 
+OR
+
+```bash
+$ yarn start
+```
+
 The Quick Start application can now be viewed at:
 [http://localhost:4200/](http://localhost:4200/)
-
 
 Fake Backend Provider
 -----------------------
@@ -113,7 +101,7 @@ To intercept service requests from the app before they are sent to the backend, 
 
 When backend services ***DO*** become available, however, it's very important to turn off the Fake Backend Provider.  You can do this for specific URLs that were being intercepted by modifying `/src/app/internal/fake-backend` accordingly, ***OR*** you can remove the fake backend altogether.  To remove the fake backend, modify app.module.ts to remove references to `fakeBackendProvider` and (optionally) remove the `/src/app/internal/fake-backend` folder.
 
-***NOTE*** that the fake backend is (out of the box) providing the data used to perform user authentication, return user configuration data, and provide navigation data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://gitlab.dematic.com/cloud_visualization_services/living-style-guide).
+***NOTE*** that the fake backend is (out of the box) providing the data used to perform user authentication, return user configuration data, and provide navigation data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://github.com/anvil-open-software/wuf).
 
 Testing the Application
 -----------------------
@@ -123,6 +111,12 @@ Run unit tests on the app with:
 $ npm run test
 ```
 
+OR 
+
+```bash
+$ yarn test
+```
+
 Run integration (e2e) tests on the app with:
 ```bash
 $ ng e2e
@@ -130,6 +124,6 @@ $ ng e2e
 
 More Information
 ----------------
-The [Living Style Guide](https://gitlab.dematic.com/cloud_visualization_services/living-style-guide) maintain copious instructions and examples on the usage of the components from the [WUF Library of Components](https://gitlab.dematic.com/cloud_visualization_services/common-components) used by your new application.  It is highly recommended that your study this material and keep a link handy for reference.
+The [Living Style Guide](https://github.com/anvil-open-software/wuf) maintain copious instructions and examples on the usage of the components from the [WUF Library of Components](https://github.com/anvil-open-software/wuf) used by your new application.  It is highly recommended that your study this material and keep a link handy for reference.
 
 The Living Style Guide will soon be available for reference as online material. [Link TBD]
