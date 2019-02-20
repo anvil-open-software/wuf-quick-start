@@ -23,12 +23,6 @@ import '@anviltech/wuf-web-code-sample'; // code sample web component
 
 /***** 3rd party imports *****/
 import {CustomMaterialModule} from './_internal/material.module';
-import {OrigamiModule} from '@codebakery/origami';
-import '@vaadin/vaadin-grid/vaadin-grid-column.js';
-import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
-import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
-import '@vaadin/vaadin-grid/vaadin-grid.js';
-import '@anviltech/wuf-poly-grid-styles';
 
 /***** Fake backend *****/
 // Delete this for a production app
@@ -76,7 +70,6 @@ import {ExamplePage2Component} from './pages/example-page-2/example-page-2.compo
 
         // 3rd Party Imports
         CustomMaterialModule.forRoot(), // Load all Angular Material modules
-        OrigamiModule,
 
         // Routes (Keep as last module loaded)
         RoutesModule

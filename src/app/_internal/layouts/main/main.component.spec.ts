@@ -38,7 +38,7 @@ describe('LayoutMainComponent', () => {
                 WufNavigationService
             ]
         })
-            .compileComponents();
+        .compileComponents();
     }));
 
     beforeEach(() => {
