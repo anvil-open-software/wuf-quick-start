@@ -6,13 +6,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
-import { polymerHost } from '@codebakery/origami/templates';
-
-import '@polymer/paper-input/paper-input.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '../../components/start-polymer3.js';
-import '../../components/lazy-element.js';
-
 
 interface ItemElement extends HTMLElement {
     dataItem: any;
@@ -23,9 +16,7 @@ interface ItemElement extends HTMLElement {
     templateUrl: './example-page-1.component.html',
     styleUrls: ['./example-page-1.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    providers: [
-		polymerHost(ExamplePage1Component)
-	]
+    providers: []
 })
 export class ExamplePage1Component implements OnInit {
     sampleCode: string = `<div class="test">{{test}}</div>`;

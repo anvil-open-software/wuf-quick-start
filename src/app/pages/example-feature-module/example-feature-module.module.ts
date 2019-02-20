@@ -19,7 +19,6 @@ import {WufNavigationModule} from '@anviltech/wuf-ang-navigation';
 
 /***** 3rd party imports *****/
 import {CustomMaterialModule} from '../../_internal/material.module';
-import {OrigamiModule} from '@codebakery/origami';
 
 /***** Import page modules *****/
 import {FeatureModuleHomeComponent} from './feature-module-home/feature-module-home.component';
@@ -43,7 +42,6 @@ import {FeatureModulePage2Component} from './feature-module-page-2/feature-modul
 
         // 3rd Party Imports
         CustomMaterialModule,
-        OrigamiModule,
 
         // Routes (Keep as last module loaded)
         RoutesModule
