@@ -94,7 +94,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.configSubscription.unsubscribe();
+        if (this.configSubscription && !this.configSubscription.closed) {
+            this.configSubscription.unsubscribe();
+        }
     }
 
     getMergedConfiguration(userData: any) {

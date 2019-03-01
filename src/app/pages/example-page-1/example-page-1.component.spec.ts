@@ -14,7 +14,6 @@ import {ExamplePage1Component} from './example-page-1.component';
 
 
 describe('ExamplePage1Component', () => {
-    let component: ExamplePage1Component;
     let fixture: ComponentFixture<ExamplePage1Component>;
 
     beforeEach(async(() => {
@@ -38,14 +37,12 @@ describe('ExamplePage1Component', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ExamplePage1Component);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    describe('Sanity check', () => {
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
+    it('should create', () => {
+        const component = fixture.componentInstance;
+        expect(component).toBeTruthy();
     });
 
 });

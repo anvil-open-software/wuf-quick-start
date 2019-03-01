@@ -15,7 +15,6 @@ import {FeatureModulePage2Component} from './feature-module-page-2.component';
 
 
 describe('FeatureModulePage2Component', () => {
-    let component: FeatureModulePage2Component;
     let fixture: ComponentFixture<FeatureModulePage2Component>;
 
     beforeEach(async(() => {
@@ -38,14 +37,12 @@ describe('FeatureModulePage2Component', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(FeatureModulePage2Component);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    describe('Sanity check', () => {
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
+    it('should create', () => {
+        const component = fixture.componentInstance;
+        expect(component).toBeTruthy();
     });
 
 });

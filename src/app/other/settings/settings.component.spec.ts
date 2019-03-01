@@ -10,7 +10,6 @@ import {SettingsComponent} from './settings.component';
 
 
 describe('SettingsComponent', () => {
-    let component: SettingsComponent;
     let fixture: ComponentFixture<SettingsComponent>;
 
     beforeEach(async(() => {
@@ -25,11 +24,11 @@ describe('SettingsComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(SettingsComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
+        const component = fixture.componentInstance;
         expect(component).toBeTruthy();
     });
 });

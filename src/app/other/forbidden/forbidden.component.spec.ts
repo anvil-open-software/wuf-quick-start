@@ -13,7 +13,6 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 
 describe('ForbiddenComponent', () => {
-    let component: ForbiddenComponent;
     let fixture: ComponentFixture<ForbiddenComponent>;
 
     beforeEach(async(() => {
@@ -28,11 +27,11 @@ describe('ForbiddenComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ForbiddenComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
+        const component = fixture.componentInstance;
         expect(component).toBeTruthy();
     });
 });

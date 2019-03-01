@@ -1,6 +1,6 @@
-WUF Quickstart Application
+WUF Quick Start Application
 =============================
-The WUF Quickstart Application, which is a part of the WUF repos at [https://github.com/anvil-open-software/wuf](https://github.com/anvil-open-software/wuf), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch. 
+The WUF Quick Start Application, which is a part of the WUF repos at [https://github.com/anvil-open-software/wuf](https://github.com/anvil-open-software/wuf), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch. 
 
 
 Installation and Setup
@@ -8,9 +8,10 @@ Installation and Setup
 The setup process includes the following steps, in order.  Additional details about each step follows below.
 
 1. Set up your development environment
-2. Create a new project based on Quickstart app
-3. Bootstrap the new app
-4. Run the new app
+2. Create a new project based on Quick Start app
+3. Customize App Code
+4. Bootstrap the new app
+5. Run the new app
 
 ### 1. Set Up Your Development Environment
 
@@ -20,10 +21,10 @@ Follow the steps below to set up your development environment and install depend
 The following are dependencies for WUF development:
 * [Node.js](https://nodejs.org/en/) version 8.0.0 or greater, installed globally - A JavaScript runtime built on Chrome's V8 JavaScript engine. 
 * [Yarn](https://yarnpkg.com/en/) version 1.10.0 or greater, installed globally - A dependency management system that replaces NPM.  Yarn is required over NPM for WUF development because of WUF's dependency on Yarn Workspaces for inter-linking package dependencies.  Do not use NPM with WUF because it has the potential to conflict with Yarn and cause problems.
-* [Angular](https://angular.io/guide/quickstart) version 6.1.0 or greater, installed globally - This is installation includes Angular-CLI.
+* [Angular](https://angular.io/guide/Quick Start) version 6.1.0 or greater, installed globally - This is installation includes Angular-CLI.
 * [Typescript](https://www.typescriptlang.org/) version 2.9.2 or greater, installed globally - Typescript is a typed superset of JavaScript that compiles to plain JavaScript and it is the language in which all of our Angular application development is done.
 
-### 2. Create a New Project Based on the Quickstart App 
+### 2. Create a New Project Based on the Quick Start App 
 
 Clone this repo into a new project folder (e.g., `my-proj`):
 ```bash
@@ -54,7 +55,22 @@ git remote add origin https://github.com/<my-org>/<project-name>
 git push -u origin master
 ```
 
-### 3. Bootstrap the New App
+### 3. Customize App Code
+
+There are a number of different places where the application code should be updated to reflect the needs of your own app.  You should make the following changes in each of these files:
+
+#### package.json
+* Replace the "name" field value ("@anviltech/wuf-quick-start") with your application name.
+* Reset the version number to 1.0.0.
+* Replace the "author" field with your own name.
+
+#### angular.json
+Replace the string "@anviltech/wuf-quick-start" with your application name.  The application name here should match that from the `package.json` file.
+
+#### configuration.ts
+Replace the "id", "name", and "copyright" properties in the file `./src/app/_internal/configuration/configuration.ts` with information specific to your app.  Refer to the [Living Style Guide](https://github.com/anvil-open-software/wuf) for more information on using the application configuration options.
+
+### 4. Bootstrap the New App
 
 Follow these steps to bootstrap your new app:
 
@@ -77,7 +93,7 @@ The bootstrap script will install packages and then do an `ng build --prod` for 
 
 Once the above steps are completed, your new app should be ready to run (see below).
 
-### 4. Run the New App
+### 5. Run the New App
 
 ```bash
 $ npm run start
@@ -92,15 +108,35 @@ $ yarn start
 The Quick Start application can now be viewed at:
 [http://localhost:4200/](http://localhost:4200/)
 
+BFF (Backend for Frontend)
+-----------------------
+The Quick Start app comes bundled with an Express.js backend which is enabled by default.  When running, the Express server functions as a [Backend for Frontend](https://samnewman.io/patterns/architectural/bff/) and is used to receive API request from the frontend application (i.e., Angular).  
+
+When developing locally (`npm run start` or `yarn start`), the Angular application and the Express server both run in parallel and you'll see console log messages issued from both in the same terminal.  This allows the application to be viewed in a browser at [http://localhost:4200/](http://localhost:4200/) while any requests from the front end to `/api/[modelname]` are passed through by the Angular application to the Express server running on port :3000.  The mechanism that tells Angular to pass through request for any URL starting with `/api/[modelname]` is configured by the `proxy.conf.json` file along with the `proxyConfig` attribute in `angular.json`.  
+
+The Express server will then handle the API request and return data via the standard HTTP protocol on the :3000 port.
+
+Any changes made to local files during development are picked up by Angular and/or nodemon (which monitor local file changes) and refresh the application in the browser automatically.  This makes for a very handy (and efficient) development environment!
+
+In a production environment (`npm run start-prod` or `yarn start-prod`) both the Angular application and the server files are compiled and the Angular server is no longer needed.  The BFF will handle all requests for the application itself ***and*** the API requests and both will be served on the :3000 port.
+
+In this configuration the BFF can serve static data directly from the server files at `/server/routes/api` or (more practically) be configured to connect with more sophisticated API endpoints where the endpoints may retrieve data from databases, for example.  It is up to you to configure your BFF files at `/server/routes/api/*` to handle incoming requests.  You can handle such requests in the BFF files or you can kick off additional requests from the BFF to other API endpoints to retrieve data.  Which you do entirely up to you and beyond the scope of these instructions.
+
+If, for whatever reason, you'd like to turn ***off*** the BFF and simply fake the API requests from the Angular application, you can do this using the Fake Backend Provider (see below).
+
 Fake Backend Provider
 -----------------------
-The Quickstart app comes bundled with a "Fake Backend Provider".  This provider includes an HttpInterceptor that will intercept certain requests from the app (e.g., '/api/users') and return fake data.  This is handy for development purposes because it allows the front-end developers to provide fake data in the UI during development without requiring functioning backend services.
+The Quick Start app comes bundled with a "Fake Backend Provider".  This provider includes an HttpInterceptor that will intercept certain requests from the app (e.g., '/api/users') and return fake data.  It may be helpful for front-end developers to provide fake data in the UI during development without having to worry about any backend services (including the BFF).
 
-To intercept service requests from the app before they are sent to the backend, you can modify `/src/app/internal/fake-backend` to handle specific URLs and return fake data.
+To enable the fake backend and intercept service requests from within the app before they are sent externally, take the following steps:
 
-When backend services ***DO*** become available, however, it's very important to turn off the Fake Backend Provider.  You can do this for specific URLs that were being intercepted by modifying `/src/app/internal/fake-backend` accordingly, ***OR*** you can remove the fake backend altogether.  To remove the fake backend, modify app.module.ts to remove references to `fakeBackendProvider` and (optionally) remove the `/src/app/internal/fake-backend` folder.
+1. Uncomment the `fakeBackendProvider` line in the providers section of `/src/app/app.module.ts`.
+2. Set the value for the `simulatedDelay` var in `/src/app/_internal/fake-backend/fake-backend.service.ts`.  This will determine how long to delay responses from the fake backend, simulating network latency.
+3. Add logic in `/src/app/_internal/fake-backend/fake-backend.service.ts` to intercept any API requests you expect to be issued by the application and return fake data.  Any API requests not handled in this file will get passed on to the BFF.
 
-***NOTE*** that the fake backend is (out of the box) providing the data used to perform user authentication, return user configuration data, and provide navigation data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://github.com/anvil-open-software/wuf).
+When backend services ***DO*** become available (as in a production environment), it's very important to turn off the Fake Backend Provider.  To remove the fake backend, modify app.module.ts to comment out or remove references to `fakeBackendProvider` and (optionally) remove the `/src/app/internal/fake-backend` folder.
+
+***NOTE*** that the fake backend is (out of the box) providing the data used to perform fake user authentication, return fake user configuration data, and provide canned navigation data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Also be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://github.com/anvil-open-software/wuf).
 
 Testing the Application
 -----------------------
@@ -120,6 +156,59 @@ Run integration (e2e) tests on the app with:
 ```bash
 $ ng e2e
 ```
+
+Running in Production Mode (no Docker)
+--------------------------
+To run the application in production mode, issue the following command:
+
+```bash
+$ npm run start-prod
+```
+
+OR 
+
+```bash
+$ yarn start-prod
+```
+
+The application and server files will be compiled and then the Express server will serve the app on port :3000.  The application can then be viewed in your browser at:
+[http://localhost:4200/](http://localhost:3000/)
+
+
+Using Docker
+--------------------------
+[Docker](https://www.docker.com/) is an excellent tool and is highly recommended for production deployments.
+
+To build your application and wrap it into a docker image, issue the following command:
+
+```bash
+$ npm run docker-build
+```
+
+OR 
+
+```bash
+$ yarn docker-build
+```
+
+Your docker image is now ready for publishing.  To push your docker image to a docker repo at `myOrg/myApplicationName`, you would issue the following command:
+
+```bash
+docker push myOrg/myApplicationName
+```
+
+You can also build your application and run it in production mode directly from a docker image on your local machine.  The following command will build your application and server files, wrap them into a docker image, and then run the server from inside the docker image:
+
+```bash
+$ npm run docker-start
+```
+
+OR 
+
+```bash
+$ yarn docker-start
+```
+
 
 More Information
 ----------------

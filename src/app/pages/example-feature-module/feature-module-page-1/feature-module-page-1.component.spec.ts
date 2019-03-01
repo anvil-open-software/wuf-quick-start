@@ -15,7 +15,6 @@ import {FeatureModulePage1Component} from './feature-module-page-1.component';
 
 
 describe('FeatureModulePage1Component', () => {
-    let component: FeatureModulePage1Component;
     let fixture: ComponentFixture<FeatureModulePage1Component>;
 
     beforeEach(async(() => {
@@ -33,19 +32,17 @@ describe('FeatureModulePage1Component', () => {
                 RouterTestingModule
             ]
         })
-            .compileComponents();
+        .compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(FeatureModulePage1Component);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    describe('Sanity check', () => {
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
+    it('should create', () => {
+        const component = fixture.componentInstance;
+        expect(component).toBeTruthy();
     });
 
 });

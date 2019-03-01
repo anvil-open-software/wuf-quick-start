@@ -31,7 +31,7 @@ import {NavigationItems} from './data/navigation';
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    simulatedDelay = 0; // delay, in milliseconds, used to simulate network latency
+    simulatedDelay = 1000; // delay, in milliseconds, used to simulate network latency
     users: any[] = [];
     storageKey: string = configuration.id + '_users';
 

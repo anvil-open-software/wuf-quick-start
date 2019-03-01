@@ -16,7 +16,6 @@ import {FeatureModuleHomeComponent} from './feature-module-home.component';
 
 
 describe('FeatureModuleHomeComponent', () => {
-    let component: FeatureModuleHomeComponent;
     let fixture: ComponentFixture<FeatureModuleHomeComponent>;
 
     beforeEach(async(() => {
@@ -39,14 +38,12 @@ describe('FeatureModuleHomeComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(FeatureModuleHomeComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    describe('Sanity check', () => {
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
+    it('should create', () => {
+        const component = fixture.componentInstance;
+        expect(component).toBeTruthy();
     });
 
 });

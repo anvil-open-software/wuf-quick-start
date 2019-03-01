@@ -17,8 +17,6 @@ import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
 export class LayoutMainComponent implements OnInit, OnDestroy {
 
     // Set the URL from which to fetch the routes/navigation data object.
-    // We're setting this to a dummy, local route for this app but you
-    // can/should use a data service for a real app.
     navDataUrl: string = '/api/navigation';
     appName: string;
     navData: any;
@@ -56,7 +54,9 @@ export class LayoutMainComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.configSubscription.unsubscribe();
+        if (this.configSubscription && !this.configSubscription.closed) {
+            this.configSubscription.unsubscribe();
+        }
     }
 
     onConfigChange(newConfig: any) {

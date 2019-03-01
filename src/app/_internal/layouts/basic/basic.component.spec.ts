@@ -13,7 +13,6 @@ import {LayoutBasicComponent} from './basic.component';
 
 
 describe('LayoutBasicComponent', () => {
-    let component: LayoutBasicComponent;
     let fixture: ComponentFixture<LayoutBasicComponent>;
 
     beforeEach(async(() => {
@@ -30,11 +29,11 @@ describe('LayoutBasicComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LayoutBasicComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should be created', () => {
+        const component = fixture.componentInstance;
         expect(component).toBeTruthy();
     });
 });
