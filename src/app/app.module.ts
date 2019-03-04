@@ -25,7 +25,7 @@ import '@anviltech/wuf-web-code-sample'; // code sample web component
 import {CustomMaterialModule} from './_internal/material.module';
 
 /***** Fake backend *****/
-// Delete this for a production app
+// Enable this for a local app with no BFF
 import {fakeBackendProvider} from './_internal/fake-backend/fake-backend.service';
 
 /***** Error pages *****/
@@ -94,8 +94,8 @@ import {ExamplePage2Component} from './pages/example-page-2/example-page-2.compo
         NavigationService,
         FooterService,
 
-        // Provider used to create fake backend.  Delete this for a production app.
-        fakeBackendProvider
+        // Provider used to create fake backend.  Enable this for a local app with no BFF
+        // fakeBackendProvider
     ],
     bootstrap: [AppComponent],
     entryComponents: [

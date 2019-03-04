@@ -13,7 +13,6 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 
 describe('PageNotFoundComponent', () => {
-    let component: PageNotFoundComponent;
     let fixture: ComponentFixture<PageNotFoundComponent>;
 
     beforeEach(async(() => {
@@ -28,11 +27,11 @@ describe('PageNotFoundComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(PageNotFoundComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
+        const component = fixture.componentInstance;
         expect(component).toBeTruthy();
     });
 });
