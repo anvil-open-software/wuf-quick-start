@@ -36,6 +36,7 @@ export class LayoutMainComponent implements OnInit, OnDestroy {
         this.navService.getNavData(this.navDataUrl).subscribe(
             results => {
                 this.navData = results.data.links;
+                console.log('results:', results);
             },
             err => {
                 console.error('Error retrieving nav data:', err);
