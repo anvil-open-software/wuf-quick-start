@@ -70,6 +70,9 @@ Replace the string "@anviltech/wuf-quick-start" with your application name.  The
 #### configuration.ts
 Replace the "id", "name", and "copyright" properties in the file `./src/app/_internal/configuration/configuration.ts` with information specific to your app.  Refer to the [Living Style Guide](https://github.com/anvil-open-software/wuf) for more information on using the application configuration options.
 
+##### app.module.ts (optional)
+The application comes bundled with a fake backend provider (see below) to intercept API requests and return them with fake data.  This can be helpful when you are developing, but shouldn't be used in a production environment.  Reference the section below on the fake backend to learn how to disable or use the fake backend.
+
 ### 4. Bootstrap the New App
 
 Follow these steps to bootstrap your new app:
@@ -126,17 +129,18 @@ If, for whatever reason, you'd like to turn ***off*** the BFF and simply fake th
 
 Fake Backend Provider
 -----------------------
-The Quick Start app comes bundled with a "Fake Backend Provider".  This provider includes an HttpInterceptor that will intercept certain requests from the app (e.g., '/api/users') and return fake data.  It may be helpful for front-end developers to provide fake data in the UI during development without having to worry about any backend services (including the BFF).
+The Quick Start app also comes bundled with a "Fake Backend Provider".  This provider includes an HttpInterceptor that will intercept certain API requests from the app (e.g., '/api/users') and return fake data.  It may be helpful for front-end developers to provide fake data in the UI during development without having to worry about any backend services (including the BFF).
 
-To enable the fake backend and intercept service requests from within the app before they are sent externally, take the following steps:
+The fake backend is enabled by default for development purposes but should NOT be used in a production environment.
 
-1. Uncomment the `fakeBackendProvider` line in the providers section of `/src/app/app.module.ts`.
-2. Set the value for the `simulatedDelay` var in `/src/app/_internal/fake-backend/fake-backend.service.ts`.  This will determine how long to delay responses from the fake backend, simulating network latency.
-3. Add logic in `/src/app/_internal/fake-backend/fake-backend.service.ts` to intercept any API requests you expect to be issued by the application and return fake data.  Any API requests not handled in this file will get passed on to the BFF.
+To use the fake backend to intercept request before they are sent to the BFF, simply add route handling in `/src/app/_internal/fake-backend`.
+1. Set the value for the `simulatedDelay` var in `/src/app/_internal/fake-backend/fake-backend.service.ts`.  This will determine how long to delay responses from the fake backend, simulating network latency.  WARNING: It's important to note that this delay is imposed on ALL requests before any are handled by the fake backend or passed through to the BFF.  The default delay is 0 seconds so be aware that increasing this value and failing to disable the fake backend will impose and additional delay on top of any real network latency.  This would be bad.
+2. Add logic in `/src/app/_internal/fake-backend/fake-backend.service.ts` to intercept any API requests you expect to be issued by the application and return fake data.  Any API requests not handled in this file will get passed on to the BFF.
 
-When backend services ***DO*** become available (as in a production environment), it's very important to turn off the Fake Backend Provider.  To remove the fake backend, modify app.module.ts to comment out or remove references to `fakeBackendProvider` and (optionally) remove the `/src/app/internal/fake-backend` folder.
+The fake backend isn't adding much (if any) overhead to the app, so unless you increase the simulatedDelay value above 0, it won't really harm anything.  However, it **is** extra code bloat and shouldn't be used in a production environment.  To turn off the fake backend when you no longer need it:
+* Commend out the `fakeBackendProvider` line in the providers section of `/src/app/app.module.ts`.  That's it.  The fake backend will no longer be used.  All API requests will now pass through to the BFF.
 
-***NOTE*** that the fake backend is (out of the box) providing the data used to perform fake user authentication, return fake user configuration data, and provide canned navigation data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Also be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://github.com/anvil-open-software/wuf).
+***NOTE*** that the fake backend is (out of the box) providing the data used to perform fake user authentication, and return fake user configuration data.  Be sure to change this code so that such data is, instead, being provided from a ***real*** backend when such a backend is available.  Also be sure to read the relevant information on ***configuration*** and the use of the ***navigation component*** from the [Living Style Guide](https://github.com/anvil-open-software/wuf).
 
 Testing the Application
 -----------------------

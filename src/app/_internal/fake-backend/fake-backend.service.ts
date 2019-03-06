@@ -3,7 +3,7 @@
  * Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
  */
 
-import {of as observableOf, Observable} from 'rxjs';
+import {of as observableOf, throwError as observableThrowError, Observable} from 'rxjs';
 
 import {dematerialize, delay, materialize, mergeMap} from 'rxjs/operators';
 // The following is used to simulate a backend in a static application without one.
@@ -20,17 +20,17 @@ import {
     HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
+import {deepMerge} from '@anviltech/wuf-ang-utils';
+
 // Get fake data
 import {configuration} from '../configuration/configuration';
 import {FakeUser} from './data/user';
-import {FooterItems} from './data/footeritems';
-import {NavigationItems} from './data/navigation';
 
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    simulatedDelay = 1000; // delay, in milliseconds, used to simulate network latency
+    simulatedDelay = 0; // Delay, in milliseconds, used to simulate network latency.  This will ALSO delay the pass-through of real API requests to the BFF.  Use with care.
     users: any[] = [];
     storageKey: string = configuration.id + '_users';
 
@@ -56,32 +56,139 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+
         // wrap in delayed observable to simulate server api call
         return observableOf(null).pipe(mergeMap(() => {
 
-                /***** NAVIGATION *****/
-                // get navigation items
-                if (request.url.endsWith('/api/navigation') && request.method === 'GET') {
-                    // check for fake auth token in header and return users if valid, this security is implemented server side in a real
-                    // application
-                    return observableOf(new HttpResponse({
-                        status: 200,
-                        body: {
-                            data: NavigationItems
-                        }
-                    }));
+                /***** Authentication *****/
+                if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
+                    // find if any user matches login credentials
+                    const filteredUsers = this.users.filter(user => {
+                        return user.username === request.body.username && user.password === request.body.password;
+                    });
+
+                    if (filteredUsers.length) {
+                        // if login details are valid return 200 OK with user details and fake jwt token
+                        const user = filteredUsers[0];
+                        const body = {
+                            id: user.id,
+                            username: user.username,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            token: 'fake-jwt-token'
+                            // we do not return password
+                        };
+
+                        return observableOf(new HttpResponse({status: 200, body: body}));
+                    } else {
+                        // else return 400 bad request
+                        return observableThrowError('Username or password is incorrect');
+                    }
                 }
 
-                /***** SIDEBAR FOOTER ITEMS *****/
-                // get sidebar footer items
-                if (request.url.endsWith('/api/footer') && request.method === 'GET') {
+                /***** USERS *****/
+                // get all users
+                if (request.url.endsWith('/api/users') && request.method === 'GET') {
                     // check for fake auth token in header and return users if valid, this security is implemented server side in a real
                     // application
-                    return observableOf(new HttpResponse({status: 200, body: {data: FooterItems}}));
+                    if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                        return observableOf(new HttpResponse({status: 200, body: this.users}));
+                    } else {
+                        // return 401 not authorised if token is null or invalid
+                        return observableThrowError('Unauthorised');
+                    }
+                }
+
+                // get user by id
+                if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'GET') {
+                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real
+                    // application
+                    if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                        // find user by id in users array
+                        const urlParts = request.url.split('/');
+                        const id = parseInt(urlParts[urlParts.length - 1]);
+                        const matchedUsers = this.users.filter(matchedUser => {
+                            return matchedUser.id === id;
+                        });
+                        const user = matchedUsers.length ? matchedUsers[0] : null;
+
+                        return observableOf(new HttpResponse({status: 200, body: user}));
+                    } else {
+                        // return 401 not authorised if token is null or invalid
+                        return observableThrowError('Unauthorised');
+                    }
+                }
+
+                // create user
+                if (request.url.endsWith('/api/users') && request.method === 'POST') {
+                    // get new user object from post body
+                    const newUser = request.body;
+
+                    // validation
+                    const duplicateUser = this.users.filter(user => {
+                        return user.username === newUser.username;
+                    }).length;
+                    if (duplicateUser) {
+                        return observableThrowError('Username "' + newUser.username + '" is already taken');
+                    }
+
+                    return this.createUser(request.body);
+                }
+
+                // delete user
+                if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'POST') {
+                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real
+                    // application
+                    if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                        // find user by id in users array
+                        const urlParts = request.url.split('/');
+                        const id = parseInt(urlParts[urlParts.length - 1]);
+                        for (let i = 0; i < this.users.length; i++) {
+                            let user = this.users[i];
+                            if (user.id === id) {
+                                // update user
+                                user = deepMerge(user, request.body); // merge old data with new data
+                                localStorage.setItem(this.storageKey, JSON.stringify(this.users));
+                                break;
+                            }
+                        }
+
+                        // respond 200 OK
+                        return observableOf(new HttpResponse({status: 200}));
+                    } else {
+                        // return 401 not authorised if token is null or invalid
+                        return observableThrowError('Unauthorised');
+                    }
+                }
+
+                // delete user
+                if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'DELETE') {
+                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real
+                    // application
+                    if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                        // find user by id in users array
+                        const urlParts = request.url.split('/');
+                        const id = parseInt(urlParts[urlParts.length - 1]);
+                        for (let i = 0; i < this.users.length; i++) {
+                            const user = this.users[i];
+                            if (user.id === id) {
+                                // delete user
+                                this.users.splice(i, 1);
+                                localStorage.setItem(this.storageKey, JSON.stringify(this.users));
+                                break;
+                            }
+                        }
+
+                        // respond 200 OK
+                        return observableOf(new HttpResponse({status: 200}));
+                    } else {
+                        // return 401 not authorised if token is null or invalid
+                        return observableThrowError('Unauthorised');
+                    }
                 }
 
                 /***** PASS THROUGH *****/
-                // pass through any requests not handled above
+                // Any requests not handled above are passed through and sent to the BFF
                 return next.handle(request);
             }),
 
