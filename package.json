@@ -1,6 +1,6 @@
 {
   "name": "@anviltech/wuf-quick-start",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Darren Luvaas",
   "scripts": {
     "ng": "ng",

@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.1] - 2019-03-05
+### Changed
+* Trim down the fake backend, enable it by default, and remove the user route from the BFF.  The fake backend will now serve fake user data by default.
+
 ## [2.0.0] - 2019-03-01
 ### Added
 - Adding a [Backend for Frontend](https://samnewman.io/patterns/architectural/bff/) to the Quick Start app for handing API requests from the front-end.

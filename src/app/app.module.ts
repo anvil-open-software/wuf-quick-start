@@ -94,8 +94,9 @@ import {ExamplePage2Component} from './pages/example-page-2/example-page-2.compo
         NavigationService,
         FooterService,
 
-        // Provider used to create fake backend.  Enable this for a local app with no BFF
-        // fakeBackendProvider
+        // Provider used to create fake backend.  API routes defined here are processed before API requests are sent to BFF.
+        // If you have no need of a fake backend, it's recommended to remove this.
+        fakeBackendProvider
     ],
     bootstrap: [AppComponent],
     entryComponents: [
