@@ -3,17 +3,18 @@
  * Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
  */
 
-import {Component, ViewEncapsulation, OnInit, Renderer2, OnDestroy} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Renderer2, OnDestroy } from '@angular/core';
 
-import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
-import {UserService} from './_internal/services/user.service';
-import {deepMerge} from '@anviltech/wuf-ang-utils';
+import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
+import { UserService } from './_internal/services/user.service';
+import { ConfigService } from './_internal/services/config.service';
+import { deepMerge } from '@anviltech/wuf-ang-utils';
 
 // App configuration
-import {configuration} from './_internal/configuration/configuration';
+import { configuration } from './_internal/configuration/configuration';
 
 // The following imports are only used for demo purposes
-import {FakeUser} from './_internal/fake-backend/data/user';
+import { FakeUser } from './_internal/fake-backend/data/user';
 
 
 @Component({
@@ -27,10 +28,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
     config: any = configuration;
     configSubscription: any;
-    currentThemeId: string;
+    themeCssUrl: string;
 
-    constructor(private configService: WufConfigurationService, private renderer: Renderer2, private userService: UserService) {
-    }
+    constructor(
+        private wufConfigService: WufConfigurationService,
+        private renderer: Renderer2,
+        private userService: UserService,
+        private configService: ConfigService
+    ) {}
 
     ngOnInit() {
         /*
@@ -44,8 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
             info into the UserService's authenticate() method. This method will then send an
             authentication request to '/api/authenticate'.
 
-            Because there is no backend, we need to intercept '/api/authenticate' using an HttpInterceptor.
-            This is what fakeBackendProvider does for us.
+            We intercept '/api/authenticate' using the fake backend's HttpInterceptor.
 
             This process will simulate the effect of logging in and then assembling a full configuration object
             which can then be used throughout this application.
@@ -56,34 +60,10 @@ export class AppComponent implements OnInit, OnDestroy {
             any opinions on) the login process.
         */
 
-        // Get fake login info from FakeUser object of /src/internal/fake-backend/data/user.ts
-        let fakeLoginData = {
-            username: FakeUser.username,
-            password: FakeUser.password
-        };
-
-        // Authenticate using fake username/password
-        this.userService.authenticate(fakeLoginData).subscribe(
-            data => {
-                // success
-                const user = {
-                    user: data
-                };
-
-                // Merge received user data with configuration data from local storage
-                const mergedConfiguration = this.getMergedConfiguration(user);
-
-                // Send merged configuration data to the config service (which updates the UI accordingly)
-                this.configService.config = mergedConfiguration;
-            },
-            error => {
-                // error
-                console.warn('Error retrieving config from server. Error:', error);
-            }
-        );
+        this.getServerData();
 
         // Subscribe to configuration updates
-        this.configSubscription = this.configService.onConfigChange().subscribe(
+        this.configSubscription = this.wufConfigService.onConfigChange().subscribe(
             newConfig => {
                 this.onConfigChange(newConfig);
             },
@@ -93,26 +73,72 @@ export class AppComponent implements OnInit, OnDestroy {
         );
     }
 
+    getServerData() {
+
+        // Get fake login info from FakeUser object of /src/internal/fake-backend/data/user.ts
+        const fakeLoginData = {
+            username: FakeUser.username,
+            password: FakeUser.password
+        };
+
+        // Authenticate using fake username/password
+        this.userService.authenticate(fakeLoginData).subscribe(
+            userData => {
+                // Authentication successful.  We now have fake user data.
+                const user = userData.data;
+
+                // Get config data
+                this.configService.get().subscribe(
+                    configData => {
+                        const config = configData.data;
+
+                        // Merge user and config data into single config object
+                        const mergedConfiguration = this.getMergedConfiguration(user, config);
+
+                        // Send merged configuration data to the config service (which updates the UI accordingly)
+                        this.wufConfigService.config = mergedConfiguration;
+                    }
+                );
+            },
+            error => {
+                // error
+                console.warn('Error retrieving config from server. Error:', error);
+            }
+        );
+
+    }
+
     ngOnDestroy() {
         if (this.configSubscription && !this.configSubscription.closed) {
             this.configSubscription.unsubscribe();
         }
     }
 
-    getMergedConfiguration(userData: any) {
+    getMergedConfiguration(userData, configData) {
         /* Create a config object comprised of data from various sources:
             1. If user settings are received from the backend with new attributes or with modified values, use these new/modified values
             2. If no new or modified setting values are received from server, use locally stored setting values
             3. If no local or stored settings values exist, use default application settings pulled from Angular's environment properties
-            4. If no default application settings exist in Angular's environment properties, use the default settings baked into the application and application components.  Nothing to do here since those properties live in the components themselves.
+            4. If no default application settings exist in Angular's environment properties, use the default settings baked into the
+            application and application components.  Nothing to do here since those properties live in the components themselves.
         */
-        const key = this.configService.getStorageKey(this.config.id, userData.user.id);
+
+        // Put user info into a config-like object
+        const user = {
+            user: userData
+        };
+
+        // Get locally stored config, if any, by app id & user id
+        const key = this.wufConfigService.getStorageKey(configData.id, userData.username);
+        const localConfig = this.wufConfigService.getStoredConfig(key);
 
         return deepMerge(
             {},
             this.config, // start with default app config
-            this.configService.getStoredConfig(key), // apply config from local storage, if any
-            userData // data from server response trumps all
+            localConfig, // apply config from local storage, if any
+            // Now add data from server.  Server data comes at the end because it trumps all
+            configData,
+            user
         );
 
     }
@@ -121,8 +147,8 @@ export class AppComponent implements OnInit, OnDestroy {
         // Received notification of a config update.  Do something with each updated property, if applicable.
 
         // Apply a theme
-        if (newConfig.hasOwnProperty('theme') && newConfig.theme !== this.currentThemeId) {
-            this.applyTheme(newConfig.theme);
+        if (newConfig.hasOwnProperty('themeCssUrl') && newConfig.themeCssUrl !== this.themeCssUrl) {
+            this.applyTheme(newConfig.themeCssUrl);
         }
 
         // Apply dark theme
@@ -134,10 +160,25 @@ export class AppComponent implements OnInit, OnDestroy {
         // (This is where you should send configuration updates back to the server for server-side persistence)
     }
 
-    applyTheme(themeId: string) {
-        // Set the 'wuf-theme' property on the <html> element.  This is what makes the SCSS selectors inside /src/assets/dummydata/branding work.
-        this.currentThemeId = themeId;
-        this.renderer.setAttribute(document.documentElement, 'wuf-theme', themeId);
+    applyTheme(themeCssUrl: string) {
+        // Fetch the URL of the theme's CSS file from the config and apply it to the DOM.  We are doing this via DOM manipulation because
+        // using two-way binding in the template causes the screen to flicker as the attribute is constantly re-evalutated by Angular.
+
+        const nodeId = 'wuf-css-theme';
+        const link = document.getElementById(nodeId);
+
+        if (link) {
+            link['href'] = themeCssUrl;
+        }
+        else {
+            const node = document.createElement('link');
+            node.href = themeCssUrl;
+            node.rel = 'stylesheet';
+            node.id = 'css-theme';
+            document.getElementsByTagName('head')[0].appendChild(node);
+        }
+
+        this.renderer.setAttribute(document.documentElement, 'wuf-has-theme', 'true');
     }
 
     applyDarkTheme(applyDark: boolean) {
@@ -146,7 +187,8 @@ export class AppComponent implements OnInit, OnDestroy {
             this.renderer.removeAttribute(document.documentElement, 'wuf-theme-dark');
         }
         else if (applyDark) {
-            // Set the 'wuf-theme-dark' property on the <html> element.  This is what makes the SCSS selectors inside /src/assets/dummydata/branding work.
+            // Set the 'wuf-theme-dark' property on the <html> element.  This is what makes the SCSS selectors inside
+            // /src/assets/dummydata/branding work.
             this.renderer.setAttribute(document.documentElement, 'wuf-theme-dark', 'true');
         }
     }

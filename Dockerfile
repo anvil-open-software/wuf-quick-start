@@ -10,4 +10,4 @@ COPY  node_modules/  node_modules/
 COPY  configuration/  configuration/
 COPY  dist/ dist/
 
-CMD ["npm", "run", "start-docker"]
+CMD ["npm", "run", "run:server:prod"]

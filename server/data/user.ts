@@ -1,5 +1,4 @@
 export const FakeUser = {
-    id: 1,
     username: 'someuser',
     firstName: 'Tony',
     lastName: 'Stark',

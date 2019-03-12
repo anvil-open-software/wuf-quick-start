@@ -21,22 +21,18 @@ export class LayoutMainComponent implements OnInit, OnDestroy {
     appName: string;
     navData: any;
     logoRoute: string = '/'; // Route path to take users when clicking on header logo
-    theme: any;
     configSubscription: any;
 
     constructor(
         private navService: WufNavigationService,
         public configService: WufConfigurationService,
-    ) {
-        this.theme = 'default';
-    }
+    ) {}
 
     ngOnInit() {
         // Fetch nav data
         this.navService.getNavData(this.navDataUrl).subscribe(
             results => {
                 this.navData = results.data.links;
-                console.log('results:', results);
             },
             err => {
                 console.error('Error retrieving nav data:', err);

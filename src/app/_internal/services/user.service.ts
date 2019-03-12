@@ -15,12 +15,6 @@ export class UserService {
     constructor(private http: HttpClient) {
     }
 
-    // NOTE: The user routes to the API server should all be protected.  Only admins should have access.
-    // Therefore, we are using the authHttp method instead of the usual Http, which will take care of
-    // passing the JWT token to the server for us and throw an error if the token doesn't exist.
-    // passing the JWT token to the server for us and throw an error if the token doesn't exist.
-    // By default, if there is no valid JWT saved, AuthHttp will return an Observable error with 'Invalid JWT'.
-
     authenticate(user: any) {
         return this.http.post<any>('/api/authenticate', user);
     }

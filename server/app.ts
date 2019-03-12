@@ -10,7 +10,7 @@ const app: express.Express = express();
 
 // Get environment
 const env = require('get-env')();
-console.log('Environment = ' + env);
+log.info('Environment = ' + env);
 
 // View engine setup (This is only ever used for displaying error pages)
 app.use(bodyParser.json());
@@ -69,7 +69,7 @@ function resolve(root: string, modules): void {
 resolve('', routeModules);
 
 // CORS middleware
-let allowCrossDomain = function (req, res, next) {
+const allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -102,7 +102,7 @@ app.use((error: any, req, res, next) => {
         // Handle everything else
         log.error(error);
 
-        let showError = {
+        const showError = {
             message: error.message,
             error: {}
         };
