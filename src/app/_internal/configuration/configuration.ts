@@ -11,6 +11,5 @@ export const configuration = {
         position: 'left',
         iconPosition: 'left',
         alignment: 'left'
-    },
-    theme: 'default'
+    }
 };

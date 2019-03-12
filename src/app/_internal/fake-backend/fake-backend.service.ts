@@ -3,13 +3,12 @@
  * Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
  */
 
-import {of as observableOf, throwError as observableThrowError, Observable} from 'rxjs';
+import { of as observableOf, throwError as observableThrowError, Observable } from 'rxjs';
 
-import {dematerialize, delay, materialize, mergeMap} from 'rxjs/operators';
+import { dematerialize, delay, materialize, mergeMap } from 'rxjs/operators';
 // The following is used to simulate a backend in a static application without one.
 // Read this article for more information:
 // http://jasonwatmore.com/post/2017/12/15/angular-5-mock-backend-example-for-backendless-development
-
 import {Injectable} from '@angular/core';
 import {
     HttpRequest,
@@ -20,17 +19,20 @@ import {
     HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
+import { Results } from '../../../../server/models/results';
 import {deepMerge} from '@anviltech/wuf-ang-utils';
 
 // Get fake data
 import {configuration} from '../configuration/configuration';
 import {FakeUser} from './data/user';
+import { NavigationItems } from './data/navigation';
 
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    simulatedDelay = 0; // Delay, in milliseconds, used to simulate network latency.  This will ALSO delay the pass-through of real API requests to the BFF.  Use with care.
+    simulatedDelay = 0; // Delay, in milliseconds, used to simulate network latency.  This will ALSO delay the pass-through of real API
+    // requests to the BFF.  Use with care.
     users: any[] = [];
     storageKey: string = configuration.id + '_users';
 
@@ -70,7 +72,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     if (filteredUsers.length) {
                         // if login details are valid return 200 OK with user details and fake jwt token
                         const user = filteredUsers[0];
-                        const body = {
+                        const data = {
                             id: user.id,
                             username: user.username,
                             firstName: user.firstName,
@@ -79,7 +81,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                             // we do not return password
                         };
 
-                        return observableOf(new HttpResponse({status: 200, body: body}));
+                        const results: Results = {
+                            info: 'Retrieved user from fake backend',
+                            success: true,
+                            data: data
+                        };
+
+                        return observableOf(new HttpResponse({status: 200, body: results}));
                     } else {
                         // else return 400 bad request
                         return observableThrowError('Username or password is incorrect');
@@ -91,8 +99,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 if (request.url.endsWith('/api/users') && request.method === 'GET') {
                     // check for fake auth token in header and return users if valid, this security is implemented server side in a real
                     // application
+
+                    const results: Results = {
+                        info: 'Retrieved users from fake backend',
+                        success: true,
+                        data: this.users
+                    };
+
                     if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-                        return observableOf(new HttpResponse({status: 200, body: this.users}));
+                        return observableOf(new HttpResponse({status: 200, body: results}));
                     } else {
                         // return 401 not authorised if token is null or invalid
                         return observableThrowError('Unauthorised');
@@ -111,8 +126,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                             return matchedUser.id === id;
                         });
                         const user = matchedUsers.length ? matchedUsers[0] : null;
+                        const results: Results = {
+                            info: 'Retrieved user from fake backend',
+                            success: true,
+                            data: user
+                        };
 
-                        return observableOf(new HttpResponse({status: 200, body: user}));
+                        return observableOf(new HttpResponse({status: 200, body: results}));
                     } else {
                         // return 401 not authorised if token is null or invalid
                         return observableThrowError('Unauthorised');

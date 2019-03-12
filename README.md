@@ -121,7 +121,7 @@ The Express server will then handle the API request and return data via the stan
 
 Any changes made to local files during development are picked up by Angular and/or nodemon (which monitor local file changes) and refresh the application in the browser automatically.  This makes for a very handy (and efficient) development environment!
 
-In a production environment (`npm run start-prod` or `yarn start-prod`) both the Angular application and the server files are compiled and the Angular server is no longer needed.  The BFF will handle all requests for the application itself ***and*** the API requests and both will be served on the :3000 port.
+In a production environment (`npm run start:prod` or `yarn start:prod`) both the Angular application and the server files are compiled and the Angular server is no longer needed.  The BFF will handle all requests for the application itself ***and*** the API requests and both will be served on the :3000 port.
 
 In this configuration the BFF can serve static data directly from the server files at `/server/routes/api` or (more practically) be configured to connect with more sophisticated API endpoints where the endpoints may retrieve data from databases, for example.  It is up to you to configure your BFF files at `/server/routes/api/*` to handle incoming requests.  You can handle such requests in the BFF files or you can kick off additional requests from the BFF to other API endpoints to retrieve data.  Which you do entirely up to you and beyond the scope of these instructions.
 
@@ -166,13 +166,13 @@ Running in Production Mode (no Docker)
 To run the application in production mode, issue the following command:
 
 ```bash
-$ npm run start-prod
+$ npm run start:prod
 ```
 
 OR 
 
 ```bash
-$ yarn start-prod
+$ yarn start:prod
 ```
 
 The application and server files will be compiled and then the Express server will serve the app on port :3000.  The application can then be viewed in your browser at:
@@ -186,13 +186,13 @@ Using Docker
 To build your application and wrap it into a docker image, issue the following command:
 
 ```bash
-$ npm run docker-build
+$ npm run docker:build
 ```
 
 OR 
 
 ```bash
-$ yarn docker-build
+$ yarn docker:build
 ```
 
 Your docker image is now ready for publishing.  To push your docker image to a docker repo at `myOrg/myApplicationName`, you would issue the following command:
@@ -204,13 +204,13 @@ docker push myOrg/myApplicationName
 You can also build your application and run it in production mode directly from a docker image on your local machine.  The following command will build your application and server files, wrap them into a docker image, and then run the server from inside the docker image:
 
 ```bash
-$ npm run docker-start
+$ npm run docker:start
 ```
 
 OR 
 
 ```bash
-$ yarn docker-start
+$ yarn docker:start
 ```
 
 
