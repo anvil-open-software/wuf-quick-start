@@ -11,10 +11,10 @@ import { ConfigService } from './_internal/services/config.service';
 import { deepMerge } from '@anviltech/wuf-ang-utils';
 
 // App configuration
-import { configuration } from './_internal/configuration/configuration';
+import { appDefaultConfig } from './_internal/configuration/configuration';
 
 // The following imports are only used for demo purposes
-import { FakeUser } from './_internal/fake-backend/data/user';
+import { FakeUser } from '../../server/data/user';
 
 
 @Component({
@@ -26,9 +26,9 @@ import { FakeUser } from './_internal/fake-backend/data/user';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    config: any = configuration;
+    config: any = appDefaultConfig;
     configSubscription: any;
-    themeCssUrl: string;
+    theme: string;
 
     constructor(
         private wufConfigService: WufConfigurationService,
@@ -90,7 +90,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 // Get config data
                 this.configService.get().subscribe(
                     configData => {
-                        const config = configData.data;
+
+                        const config = configData.success ? configData.data : {};
+
+                        // Set a storage key to get/set config in local storage
+                        const appKey = appDefaultConfig.id;
+                        const userKey = user.hasOwnProperty('id') ? user.id : user.hasOwnProperty('username') ? user.username : 'default_user';
+                        this.wufConfigService.setStorageKey(appKey + '_' + config.tenantKey + '_' + userKey); // set the storage key to use from here on out
 
                         // Merge user and config data into single config object
                         const mergedConfiguration = this.getMergedConfiguration(user, config);
@@ -128,17 +134,16 @@ export class AppComponent implements OnInit, OnDestroy {
             user: userData
         };
 
-        // Get locally stored config, if any, by app id & user id
-        const key = this.wufConfigService.getStorageKey(configData.id, userData.username);
+        // Get locally stored config, if any
+        const key = this.wufConfigService.getStorageKey();
         const localConfig = this.wufConfigService.getStoredConfig(key);
 
         return deepMerge(
             {},
             this.config, // start with default app config
             localConfig, // apply config from local storage, if any
-            // Now add data from server.  Server data comes at the end because it trumps all
-            configData,
-            user
+            configData, // Now add data from server.  Server data trumps everything above.
+            user // User preference data trumps everything.
         );
 
     }
@@ -147,9 +152,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // Received notification of a config update.  Do something with each updated property, if applicable.
 
         // Apply a theme
-        if (newConfig.hasOwnProperty('themeCssUrl') && newConfig.themeCssUrl !== this.themeCssUrl) {
-            this.applyTheme(newConfig.themeCssUrl);
-        }
+        this.applyTheme(newConfig);
 
         // Apply dark theme
         if (newConfig.hasOwnProperty('themeDark')) {
@@ -160,24 +163,36 @@ export class AppComponent implements OnInit, OnDestroy {
         // (This is where you should send configuration updates back to the server for server-side persistence)
     }
 
-    applyTheme(themeCssUrl: string) {
+    applyTheme(newConfig: any) {
         // Fetch the URL of the theme's CSS file from the config and apply it to the DOM.  We are doing this via DOM manipulation because
-        // using two-way binding in the template causes the screen to flicker as the attribute is constantly re-evalutated by Angular.
+        // using two-way binding in the template causes the screen to flicker as the attribute is constantly re-evaluatated by Angular.
+        const theme = newConfig.theme;
+
+        if (!newConfig.hasOwnProperty('theme') || (newConfig.hasOwnProperty('theme') && theme === this.theme) )  {
+            return;
+        }
 
         const nodeId = 'wuf-css-theme';
         const link = document.getElementById(nodeId);
 
-        if (link) {
-            link['href'] = themeCssUrl;
+        if (!theme || !theme.length) {
+            if (link) {
+                link.remove();
+            }
+        }
+        else if (theme && theme.length && link) {
+            link['href'] = theme;
         }
         else {
+            // Create a new link
             const node = document.createElement('link');
-            node.href = themeCssUrl;
+            node.href = theme;
             node.rel = 'stylesheet';
             node.id = 'css-theme';
             document.getElementsByTagName('head')[0].appendChild(node);
         }
 
+        // Set wuf-has-theme to true so loading screen turns off
         this.renderer.setAttribute(document.documentElement, 'wuf-has-theme', 'true');
     }
 

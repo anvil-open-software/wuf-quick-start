@@ -8,9 +8,10 @@ import config from './helpers/config';
 
 const app: express.Express = express();
 
-// Get environment
-const env = require('get-env')();
-log.info('Environment = ' + env);
+// Show environment in output
+if (config.hasOwnProperty('environment')) {
+    log.info('Environment = ' + config.environment);
+}
 
 // View engine setup (This is only ever used for displaying error pages)
 app.use(bodyParser.json());
@@ -19,28 +20,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Set up request logging for dev
-if (env === 'dev') {
-    app.use(function (req, res, next) {
-        // bunyan-debug-stream does magic things when passing an object with a req property
-        // into it, so we don't have to do any special kind of formatting for the output
-        const status: number = res.statusCode;
+// Set up request logging
+app.use(function (req, res, next) {
+    // bunyan-debug-stream does magic things when passing an object with a req property
+    // into it, so we don't have to do any special kind of formatting for the output
+    const status: number = res.statusCode;
 
-        if (status < 300) {
-            log.info({req: req, res: res});
-        } else if (status >= 300 && status < 400) {
-            log.warn({req: req, res: res});
-        } else if (status >= 400 && status < 500) {
-            log.warn({req: req, res: res});
-        } else if (status >= 500) {
-            log.error({req: req, res: res});
-        } else {
-            log.info({req: req, res: res});
-        }
+    if (status < 300) {
+        log.info({req: req, res: res});
+    } else if (status >= 300 && status < 400) {
+        log.warn({req: req, res: res});
+    } else if (status >= 400 && status < 500) {
+        log.warn({req: req, res: res});
+    } else if (status >= 500) {
+        log.error({req: req, res: res});
+    } else {
+        log.info({req: req, res: res});
+    }
 
-        next();
-    });
-}
+    next();
+});
 
 // Create Express routes using all files in the routes directory
 log.info('Create express routes...');
@@ -101,17 +100,6 @@ app.use((error: any, req, res, next) => {
     } else {
         // Handle everything else
         log.error(error);
-
-        const showError = {
-            message: error.message,
-            error: {}
-        };
-
-        if (env === 'dev') {
-            // Only include stacktrace when in dev
-            showError.error = error;
-        }
-
         res.status(error.statusCode || 500).json(error);
     }
 });

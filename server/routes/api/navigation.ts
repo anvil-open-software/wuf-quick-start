@@ -3,7 +3,7 @@
 import { Router } from 'express';
 import log from '../../helpers/bunyan';
 import { Results } from '../../models/results';
-import { NavigationItems } from '../../../src/app/_internal/fake-backend/data/navigation';
+import { NavigationItems } from '../../data/navigation';
 
 
 const modelName = 'navigation'; // This needs to exactly match the corresponding file name under /server/models/, minus the extension

@@ -5,7 +5,7 @@ export interface Config {
     name?:           string;
     copyrightName?:  string;
     navigation?:     NavConfig;
-    themeCssUrl?:    string;
+    theme?:          string;
 }
 
 export default Config;

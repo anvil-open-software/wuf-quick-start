@@ -9,7 +9,7 @@ import { dematerialize, delay, materialize, mergeMap } from 'rxjs/operators';
 // The following is used to simulate a backend in a static application without one.
 // Read this article for more information:
 // http://jasonwatmore.com/post/2017/12/15/angular-5-mock-backend-example-for-backendless-development
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     HttpRequest,
     HttpResponse,
@@ -20,12 +20,11 @@ import {
 } from '@angular/common/http';
 
 import { Results } from '../../../../server/models/results';
-import {deepMerge} from '@anviltech/wuf-ang-utils';
+import { deepMerge } from '@anviltech/wuf-ang-utils';
 
 // Get fake data
-import {configuration} from '../configuration/configuration';
-import {FakeUser} from './data/user';
-import { NavigationItems } from './data/navigation';
+import { appDefaultConfig } from '../configuration/configuration';
+import { FakeUser } from '../../../../server/data/user';
 
 
 @Injectable()
@@ -34,7 +33,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     simulatedDelay = 0; // Delay, in milliseconds, used to simulate network latency.  This will ALSO delay the pass-through of real API
     // requests to the BFF.  Use with care.
     users: any[] = [];
-    storageKey: string = configuration.id + '_users';
+    storageKey: string = appDefaultConfig.id + '_users';
 
     constructor() {
         // Get array of users from local storage for registered users
@@ -48,7 +47,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     createUser(newUser: any) {
         // save new user
-        newUser.id = this.users.length + 1;
         this.users.push(newUser);
         localStorage.setItem(this.storageKey, JSON.stringify(this.users));
 
@@ -73,7 +71,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         // if login details are valid return 200 OK with user details and fake jwt token
                         const user = filteredUsers[0];
                         const data = {
-                            id: user.id,
                             username: user.username,
                             firstName: user.firstName,
                             lastName: user.lastName,
@@ -110,7 +107,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         return observableOf(new HttpResponse({status: 200, body: results}));
                     } else {
                         // return 401 not authorised if token is null or invalid
-                        return observableThrowError('Unauthorised');
+                        return observableThrowError('Unauthorized');
                     }
                 }
 
@@ -135,7 +132,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         return observableOf(new HttpResponse({status: 200, body: results}));
                     } else {
                         // return 401 not authorised if token is null or invalid
-                        return observableThrowError('Unauthorised');
+                        return observableThrowError('Unauthorized');
                     }
                 }
 
@@ -155,7 +152,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return this.createUser(request.body);
                 }
 
-                // delete user
+                // update user
                 if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'POST') {
                     // check for fake auth token in header and return user if valid, this security is implemented server side in a real
                     // application
@@ -177,7 +174,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         return observableOf(new HttpResponse({status: 200}));
                     } else {
                         // return 401 not authorised if token is null or invalid
-                        return observableThrowError('Unauthorised');
+                        return observableThrowError('Unauthorized');
                     }
                 }
 
@@ -203,7 +200,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         return observableOf(new HttpResponse({status: 200}));
                     } else {
                         // return 401 not authorised if token is null or invalid
-                        return observableThrowError('Unauthorised');
+                        return observableThrowError('Unauthorized');
                     }
                 }
 
