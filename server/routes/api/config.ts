@@ -4,7 +4,7 @@ import { Router } from 'express';
 import log from '../../helpers/bunyan';
 import { Results } from '../../models/results';
 import Config from '../../models/config';
-import { configuration } from '../../../src/app/_internal/configuration/configuration';
+import { appDefaultConfig } from '../../../src/app/_internal/configuration/configuration';
 
 
 const modelName = 'config'; // This needs to exactly match the corresponding file name under /server/models/, minus the extension
@@ -19,7 +19,7 @@ crudRouter.route('/' + modelName)
 .get((req: any, res: any, next: any) => {
 
     const results: Results = {};
-    const config: Config = configuration; // By default the config is set to match that from /src/app/_internal/configuration/configuration
+    const config: Config = appDefaultConfig; // By default the config is set to match that from /src/app/_internal/configuration/configuration
 
     results.info = 'Retrieved ' + modelName + ' from BFF';
     results.success = true;

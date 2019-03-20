@@ -1,14 +1,12 @@
 // Set up Bunyan for logging
 import * as bunyan from 'bunyan';
-import * as path from 'path';
+import config from './config';
 
 
-const env = require('get-env')();
-
-let bunyanDebugStream: any = require('bunyan-debug-stream');
-let logStreams: any = [
+const bunyanDebugStream: any = require('bunyan-debug-stream');
+const logStreams: any = [
     {
-        level: (env === 'dev') ? 'info' : 'warn', // log INFO and above on dev and WARN and above on prod
+        level: config.log_level, // must be one of "fatal", "error", "warn", "info", "debug", "trace".  See https://github.com/trentm/node-bunyan#levels.
         type: 'raw',
         stream: bunyanDebugStream({
             // Output to the console should be pretty-printed for human consumption
@@ -17,7 +15,7 @@ let logStreams: any = [
         })
     }
 ];
-let log = bunyan.createLogger({
+const log = bunyan.createLogger({
     name: 'logger',
     streams: logStreams,
     serializers: bunyanDebugStream.serializers

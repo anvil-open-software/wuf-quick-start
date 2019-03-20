@@ -3,7 +3,7 @@
 import { Router } from 'express';
 import log from '../../helpers/bunyan';
 import { Results } from '../../models/results';
-import { FooterItems } from '../../../src/app/_internal/fake-backend/data/footeritems';
+import { FooterItems } from '../../data/footeritems';
 
 
 const modelName = 'footer'; // This needs to exactly match the corresponding file name under /server/models/, minus the extension

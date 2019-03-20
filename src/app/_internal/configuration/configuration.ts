@@ -3,7 +3,7 @@
  * Licensed under the MIT Open Source: https://opensource.org/licenses/MIT
  */
 
-export const configuration = {
+export const appDefaultConfig = {
     id: 'wuf-quick-start',
     name: 'WUF Quick Start',
     copyrightName: 'ACME, Inc.',

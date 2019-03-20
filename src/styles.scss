@@ -12,7 +12,6 @@
 /* Add any additional global app styles below this line */
 
 :root {
-    // These overrides ONLY apply to the default theme
 
     /***** logo *****/
     @include wuf-theme-logo('/assets/images/logo.svg', 200px, 35px);

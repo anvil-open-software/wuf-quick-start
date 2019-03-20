@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.3] - 2019-03-19
+### Changed
+- Changing server config system to use local.config
+- Moving data files around.  Ensuring configuration files and data files are available in the docker image.
+
 ## [2.0.2] - 2019-03-11
 ### Changed
 - Improved package.json scripts. Config now comes from BFF.
