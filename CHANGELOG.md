@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.3] - 2019-03-21
+### Added
+- Adding ngx-translate
+- Adding sidedrawer and some example utilities in the header
+
 ## [2.0.3] - 2019-03-19
 ### Changed
 - Changing server config system to use local.config

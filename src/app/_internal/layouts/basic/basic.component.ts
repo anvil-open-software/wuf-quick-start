@@ -4,6 +4,7 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
 
@@ -16,7 +17,7 @@ import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
 })
 export class LayoutBasicComponent implements OnInit {
 
-    configSubscription: any;
+    configSubscription: Subscription;
 
     constructor(
         public configService: WufConfigurationService) {
