@@ -4,11 +4,13 @@
  */
 
 import { Component, ViewEncapsulation, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
 import { UserService } from './_internal/services/user.service';
 import { ConfigService } from './_internal/services/config.service';
 import { deepMerge } from '@anviltech/wuf-ang-utils';
+import { TranslateService } from '@ngx-translate/core';
 
 // App configuration
 import { appDefaultConfig } from './_internal/configuration/configuration';
@@ -27,15 +29,20 @@ import { FakeUser } from '../../server/data/user';
 export class AppComponent implements OnInit, OnDestroy {
 
     config: any = appDefaultConfig;
-    configSubscription: any;
+    configSubscription: Subscription;
     theme: string;
+    defaultLang: string = 'en';
 
     constructor(
         private wufConfigService: WufConfigurationService,
         private renderer: Renderer2,
         private userService: UserService,
-        private configService: ConfigService
-    ) {}
+        private configService: ConfigService,
+        public translate: TranslateService
+    ) {
+        // This language will be used as a fallback when a translation isn't found in the current language
+        translate.setDefaultLang(this.defaultLang);
+    }
 
     ngOnInit() {
         /*
@@ -103,6 +110,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
                         // Send merged configuration data to the config service (which updates the UI accordingly)
                         this.wufConfigService.config = mergedConfiguration;
+
+                        this.setLanguage(mergedConfiguration);
                     }
                 );
             },
@@ -115,9 +124,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        // unsubscribe from config updates
         if (this.configSubscription && !this.configSubscription.closed) {
             this.configSubscription.unsubscribe();
         }
+    }
+
+    setLanguage(config: object) {
+        // Set language based on tenant language
+        // const browserLang = this.translate.getBrowserLang(); // Not used
+
+        if (!config.hasOwnProperty('language')) {
+            return;
+        }
+
+        const langToUse: string = config['language'];
+        this.translate.use(langToUse ? langToUse : this.defaultLang);
     }
 
     getMergedConfiguration(userData, configData) {
@@ -134,7 +156,9 @@ export class AppComponent implements OnInit, OnDestroy {
             user: userData
         };
 
-        // Get locally stored config, if any
+        // Get locally stored config, if any, by app id (from local app configuration) + tenant id (from API's config object)
+        // + user id (from API's user object)
+
         const key = this.wufConfigService.getStorageKey();
         const localConfig = this.wufConfigService.getStoredConfig(key);
 
@@ -143,7 +167,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.config, // start with default app config
             localConfig, // apply config from local storage, if any
             configData, // Now add data from server.  Server data trumps everything above.
-            user // User preference data trumps everything.
+            user // User preference data trumps all.
         );
 
     }
@@ -202,8 +226,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.renderer.removeAttribute(document.documentElement, 'wuf-theme-dark');
         }
         else if (applyDark) {
-            // Set the 'wuf-theme-dark' property on the <html> element.  This is what makes the SCSS selectors inside
-            // /src/assets/dummydata/branding work.
+            // Set the 'wuf-theme-dark' property on the <html> element.
             this.renderer.setAttribute(document.documentElement, 'wuf-theme-dark', 'true');
         }
     }

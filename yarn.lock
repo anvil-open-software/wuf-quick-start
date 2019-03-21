@@ -228,6 +228,11 @@
     "@anviltech/wuf-ang-utils" "^2.0.0-rc.1"
     tslib "^1.9.0"
 
+"@anviltech/wuf-ang-drawer@^2.0.0-rc.1":
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@anviltech/wuf-ang-drawer/-/wuf-ang-drawer-2.0.0-rc.1.tgz#49339523c20129ad4a6a679c75c3fab5208c2d73"
+  integrity sha512-TrtjSUigsP88XokCF0BK2EcPqytstbW9wpBpSH4LmgijxUcbLa64mLtqlgX1TlmzoN9pmImMeKA5aNR3zGnR8A==
+
 "@anviltech/wuf-ang-layout@2.0.0-rc.4", "@anviltech/wuf-ang-layout@^2.0.0-rc.1":
   version "2.0.0-rc.4"
   resolved "https://registry.yarnpkg.com/@anviltech/wuf-ang-layout/-/wuf-ang-layout-2.0.0-rc.4.tgz#2253c227d43c8b33116ce37511d24deaf27a8ba8"
@@ -237,10 +242,10 @@
     "@anviltech/wuf-web-assets" "^2.0.0-rc.1"
     tslib "^1.9.0"
 
-"@anviltech/wuf-ang-navigation@^2.0.0-rc.2":
-  version "2.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@anviltech/wuf-ang-navigation/-/wuf-ang-navigation-2.0.0-rc.5.tgz#a98cc607070efd765496b02bed961592078aeb1a"
-  integrity sha512-xrIx50u2BZz1ee8FkN4uasT2GIk6MqEZssq3m7sV+du+4QeY1LT7SvRjW1yugTh3eg7c61ZnwtU0NS/Xzo3+aw==
+"@anviltech/wuf-ang-navigation@^2.0.0-rc.1":
+  version "2.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@anviltech/wuf-ang-navigation/-/wuf-ang-navigation-2.0.0-rc.6.tgz#2cfae4a4d64f1e6d62174c8f7b5b0a340a9c3e9d"
+  integrity sha512-6R2UCTtLWo9zD0HNv46K1v8uhJV7VM/VbmRAGjn62wLs+GVPNk88SQc3u4GkTSwcB5U/9VYA6r9nAdZ/N8oykg==
   dependencies:
     "@anviltech/wuf-ang-configuration" "^2.0.0-rc.6"
     "@anviltech/wuf-ang-layout" "2.0.0-rc.4"
@@ -840,6 +845,13 @@
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-11.0.1.tgz#cecefad41f06368f5859dac48fec8fcc4485615f"
   integrity sha512-nBCa1ZD9fAUY/3eskP3Lql2fNg8OMrYIej1/5GRsfcutx9tG/5fZLCv9m6UCw1aS+u4uK/vXjv1ctG/FdMvaWg==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngx-translate/http-loader@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-4.0.0.tgz#8a555248ad4b7d513460fcec9da25b0447962f1d"
+  integrity sha512-x8LumqydWD7eX9yQTAVeoCM9gFUIGVTUjZqbxdAUavAA3qVnk9wCQux7iHLPXpydl8vyQmLoPQR+fFU+DUDOMA==
   dependencies:
     tslib "^1.9.0"
 

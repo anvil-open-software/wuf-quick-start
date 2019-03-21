@@ -11,5 +11,6 @@ export const appDefaultConfig = {
         position: 'left',
         iconPosition: 'left',
         alignment: 'left'
-    }
+    },
+    language: 'en'
 };

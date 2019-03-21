@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClient } from '@angular/common/http';
 
 /***** Basic app components *****/
 import { AppComponent } from './app.component';
@@ -23,6 +24,8 @@ import '@anviltech/wuf-web-code-sample'; // code sample web component
 
 /***** 3rd party imports *****/
 import { CustomMaterialModule } from './_internal/material.module';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 /***** Fake backend *****/
 // Enable this for a local app with no BFF
@@ -48,6 +51,10 @@ import { ConfigService } from './_internal/services/config.service';
 import { ExamplePage1Component } from './pages/example-page-1/example-page-1.component';
 import { ExamplePage2Component } from './pages/example-page-2/example-page-2.component';
 
+// Create a factory for the translate loader
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
     schemas: [
@@ -71,6 +78,14 @@ import { ExamplePage2Component } from './pages/example-page-2/example-page-2.com
 
         // 3rd Party Imports
         CustomMaterialModule.forRoot(), // Load all Angular Material modules
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            },
+            isolate: false
+        }),
 
         // Routes (Keep as last module loaded)
         RoutesModule
