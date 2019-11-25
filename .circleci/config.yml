@@ -29,12 +29,12 @@ jobs:
                  apk add bash
                  apk add openssh
                  apk add tar
+                 apk add chromium
                  apk add ca-certificates
                  apk update && apk upgrade && \
                  echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
                  echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
                  apk add --no-cache \
-                    chromium@edge \
                     nss@edge \
                     freetype@edge \
                     harfbuzz@edge \
