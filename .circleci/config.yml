@@ -52,7 +52,7 @@ jobs:
          - run:
               name: Validate version
               command: |
-                 ./.circleci/validate.version.sh
+                 ./.circleci/validate_version.sh
          - run:
               name: Install WUF-QUICK-START
               command: |
