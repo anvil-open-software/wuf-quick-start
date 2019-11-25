@@ -1,6 +1,6 @@
 {
   "name": "wuf-quick-start",
-  "version": "2.1.0",
+  "version": "2.1.0-alpha.1",
   "author": "Darren Luvaas",
   "description": "A Quick Start application for use with WUF.",
   "scripts": {
