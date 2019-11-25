@@ -1,0 +1,79 @@
+version: 2.0
+
+# Acceptance Criteria
+#
+# Given a feature branch of WUF-QUICK-START
+# When it changes on GitHub
+# Then its code is built and tested but not published
+#
+# Given origin/master of WUF
+# When it changes on GitHub
+# Then its code is built, tested, and tagged
+
+jobs:
+   build:
+      docker:
+         - image: wasvic/node_dev:1.0.0-FM-188-SNAPSHOT
+           entrypoint: /bin/sh
+      working_directory: ~/wuf-quick-start
+      environment:
+         - GH_EMAIL: anvil.open.source.machine.user@gmail.com
+         - GH_NAME: anvil-open-source-machine-user
+         - CHROME_BIN: /usr/lib/chromium/chrome
+      steps:
+         - run:
+              name: Install OS tools
+              # TODO: replace with install_os_pkgs.sh script
+              command: |
+                 apk update && apk add git
+                 apk add bash
+                 apk add openssh
+                 apk add tar
+                 apk add ca-certificates
+                 apk update && apk upgrade && \
+                 echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
+                 echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
+                 apk add --no-cache \
+                    chromium@edge \
+                    nss@edge \
+                    freetype@edge \
+                    harfbuzz@edge \
+                    ttf-freefont@edge
+                 apk add --no-cache ttf-freefont
+
+         #  chekout projectt
+         - checkout
+         - restore_cache:
+              keys:
+                 # when lock file changes, use increasingly general patterns to restore cache
+                 - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+                 - yarn-v1-{{ .Branch }}-
+                 - node-v1-
+         - run:
+              name: Validate version
+              command: |
+                 ./.circleci/validate.version.sh
+         - run:
+              name: Install WUF-QUICK-START
+              command: |
+                 yarn bootstrap
+         - save_cache:
+              paths:
+                 - ./node_modules
+              key: yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+         - run:
+              name: Build WUF-QUICK-START
+              command: |
+                 ng build --prod
+         - run:
+              name: Unit Test WUF-QUICK-START
+              command: |
+                 ng test --karmaConfig=src/karma.conf.circleci.js
+         - run:
+              name: Integration Test WUF-QUICK-START
+              command: |
+                 ng e2e
+         - run:
+              name: Tag WUF
+              command: |
+                 ./.circleci/tag.sh
