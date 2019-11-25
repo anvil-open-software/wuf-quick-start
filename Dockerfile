@@ -11,4 +11,5 @@ COPY configuration/ configuration/
 COPY data/ data/
 COPY dist/ dist/
 
-CMD ["npm", "run", "run:server:prod"]
+ENTRYPOINT [ "node" ]
+CMD ["dist/server/www.js"]
