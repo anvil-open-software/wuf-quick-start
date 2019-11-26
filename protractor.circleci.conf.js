@@ -23,7 +23,8 @@ exports.config = {
                 // see https://github.com/karma-runner/karma-chrome-launcher/issues/125#issuecomment-312668593
                 '--no-sandbox',
                 '--headless',
-                '--disable-gpu'
+                '--disable-gpu',
+                "--window-size=800,600"
             ]
         }
     },
