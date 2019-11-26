@@ -14,7 +14,18 @@ exports.config = {
         './e2e/**/*.e2e-spec.ts'
     ],
     capabilities: {
-        'browserName': 'chrome'
+        'browserName': 'chrome',
+        // Run tests in a headless Chrome
+        // https://github.com/angular/protractor/blob/master/docs/browser-setup.md#using-headless-chrome
+        chromeOptions: {
+            args: [
+                // IMPORTANT: Required flag for running Chrome in unprivileged Docker,
+                // see https://github.com/karma-runner/karma-chrome-launcher/issues/125#issuecomment-312668593
+                '--no-sandbox',
+                '--headless',
+                '--disable-gpu'
+            ]
+        }
     },
     directConnect: true,
     baseUrl: 'http://localhost:4200/',
