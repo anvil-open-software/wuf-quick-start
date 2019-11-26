@@ -72,6 +72,9 @@ jobs:
          - run:
               name: Integration Test WUF-QUICK-START
               command: |
+                 pushd node_modules\protractor
+                 npmvi webdriver-manager@latest
+                 popd
                  ng e2e --protractorConfig=protractor.circleci.conf.js
          - run:
               name: Tag WUF
