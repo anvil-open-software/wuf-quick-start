@@ -72,7 +72,7 @@ jobs:
          - run:
               name: Integration Test WUF-QUICK-START
               command: |
-                 cd node_modules\protractor
+                 cd node_modules/protractor
                  npm i webdriver-manager@latest
                  cd ../..
                  ng e2e --protractorConfig=protractor.circleci.conf.js
