@@ -13,7 +13,7 @@ version: 2.0
 jobs:
    build:
       docker:
-         - image: node:10.15.1-alpine
+         - image: wasvic/node_dev:1.0.0-FM-188-SNAPSHOT
            entrypoint: /bin/sh
            working_directory: ~/wuf-quick-start
       environment:
