@@ -14,9 +14,13 @@ jobs:
    build:
       docker:
         - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
-          auth:
-            username: circle-ci@wasvic.onaliyun.com
-            password: $DOCKER_PASSWORD
+          steps:
+            - run:
+                name: Login AliCloud
+                command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
+#          auth:
+#            username: circle-ci@wasvic.onaliyun.com
+#            password: $DOCKER_PASSWORD
           entrypoint: /bin/sh
           working_directory: /root/project
       environment:
