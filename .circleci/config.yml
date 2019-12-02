@@ -13,12 +13,12 @@ version: 2.0
 jobs:
    build:
       docker:
-         - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
-           auth:
-              username: circle-ci@wasvic.onaliyun.com
-              password: $DOCKER_PASSWORD
-           entrypoint: /bin/sh
-           working_directory: /root/project
+        - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
+          auth:
+            username: circle-ci@wasvic.onaliyun.com
+            password: $DOCKER_PASSWORD
+          entrypoint: /bin/sh
+          working_directory: /root/project
       environment:
          - GH_EMAIL: anvil.open.source.machine.user@gmail.com
          - GH_NAME: anvil-open-source-machine-user
