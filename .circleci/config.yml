@@ -22,6 +22,10 @@ jobs:
          - CHROME_BIN: /usr/lib/chromium/chrome
       steps:
          - run:
+              name: Login AliCloud
+              command: |
+                echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
+         - run:
               name: Install OS tools
               # TODO: replace with install_os_pkgs.sh script
               command: |
