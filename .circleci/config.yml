@@ -15,6 +15,7 @@ jobs:
       docker:
          - image: wasvic/node_dev:1.0.0-FM-188-SNAPSHOT
            entrypoint: /bin/sh
+           working_directory: /root/project
       environment:
          - GH_EMAIL: anvil.open.source.machine.user@gmail.com
          - GH_NAME: anvil-open-source-machine-user
