@@ -16,7 +16,7 @@ jobs:
          - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
            auth:
               username: $DOCKER_USER
-              password: $DOCKERHUB_PASSWORD
+              password: $DOCKER_PASSWORD
            entrypoint: /bin/sh
            working_directory: /root/project
       environment:
