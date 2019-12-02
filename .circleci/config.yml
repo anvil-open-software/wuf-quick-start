@@ -13,8 +13,7 @@ version: 2.0
 jobs:
    build:
       docker:
-         - command: |
-           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
+         - command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
          - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
            entrypoint: /bin/sh
            working_directory: /root/project
