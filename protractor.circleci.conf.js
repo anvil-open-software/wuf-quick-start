@@ -13,6 +13,7 @@ exports.config = {
     specs: [
         './e2e/**/*.e2e-spec.ts'
     ],
+    chromeDriver: '/usr/bin/chromedriver',
     capabilities: {
         'browserName': 'chrome',
         // Run tests in a headless Chrome

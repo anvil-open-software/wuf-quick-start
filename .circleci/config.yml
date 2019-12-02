@@ -29,7 +29,7 @@ jobs:
                  apk add bash
                  apk add openssh
                  apk add tar
-                 apk add chromium
+
                  apk add ca-certificates
                  apk update && apk upgrade && \
                  echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
@@ -38,8 +38,10 @@ jobs:
                     nss@edge \
                     freetype@edge \
                     harfbuzz@edge \
-                    ttf-freefont@edge
-                 apk add --no-cache ttf-freefont
+                    ttf-freefont@edge\
+                    chromium@edge\
+                    chromium-chromeDriver@edge\
+                    ttf-freefont
 
          #  chekout projectt
          - checkout
