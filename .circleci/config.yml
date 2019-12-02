@@ -40,7 +40,7 @@ jobs:
                     harfbuzz@edge \
                     ttf-freefont@edge\
                     chromium@edge\
-                    chromeDriver@edge\
+                    chromium-chromedriver@edge\
                     ttf-freefont
 
          #  chekout projectt
