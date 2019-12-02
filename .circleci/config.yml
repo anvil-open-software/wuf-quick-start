@@ -13,6 +13,8 @@ version: 2.0
 jobs:
    build:
       docker:
+         - command: |
+           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
          - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
            entrypoint: /bin/sh
            working_directory: /root/project
@@ -21,10 +23,6 @@ jobs:
          - GH_NAME: anvil-open-source-machine-user
          - CHROME_BIN: /usr/lib/chromium/chrome
       steps:
-         - run:
-              name: Login AliCloud
-              command: |
-                echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
          - run:
               name: Install OS tools
               # TODO: replace with install_os_pkgs.sh script
