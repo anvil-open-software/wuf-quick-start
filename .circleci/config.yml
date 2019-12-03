@@ -72,7 +72,7 @@ jobs:
               command: |
                  ng test --karmaConfig=src/karma.conf.circleci.js
          - run:
-              name: name: Integration Test WUF-QUICK-START
+              name: Integration Test WUF-QUICK-START
               command: |
                  ng e2e --protractorConfig=protractor.circleci.conf.js
          - run:
