@@ -17,8 +17,6 @@ jobs:
         auth:
           # username: $DOCKER_USER
           # password: $DOCKER_PASSWORD
-          username: circle-ci@wasvic.onaliyun.com
-          password: $DOCKER_PASSWORD
         entrypoint: /bin/sh
     working_directory: /root/project
     environment:
