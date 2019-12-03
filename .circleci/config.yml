@@ -17,7 +17,7 @@ jobs:
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
-          entrypoint: /bin/sh
+    entrypoint: /bin/sh
     working_directory: /root/project
     environment:
       - CHROME_BIN: /usr/lib/chromium/chrome
@@ -52,9 +52,9 @@ jobs:
           - yarn-v1-{{ .Branch }}-
           - node-v1-
       - run:
-       name: Validate version
-       command: |
-         ./.circleci/validate_version.sh
+        name: Validate version
+        command: |
+          ./.circleci/validate_version.sh
       - run:
         name: Install WUF-QUICK-START
         command: |
@@ -67,7 +67,7 @@ jobs:
         name: Build Build WUF-QUICK-START
         command: |
           ng build --prod
-      -  run:
+      - run:
         name: Unit Test WUF-QUICK-START
         command: |
           ng test --karmaConfig=src/karma.conf.circleci.js
