@@ -15,7 +15,7 @@ jobs:
     docker:
       - image: registry-intl.us-west-1.aliyuncs.com/wasvic/node_dev:1.2.1
         auth:
-          command: - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
+          command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin registry-intl.us-west-1.aliyuncs.com
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
         entrypoint: /bin/sh
