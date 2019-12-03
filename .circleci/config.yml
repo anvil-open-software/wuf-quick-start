@@ -58,7 +58,7 @@ jobs:
          -  run:
             name: Install WUF-QUICK-START
             command: |
-               yarn bootstrap
+              yarn bootstrap
          -  save_cache:
               paths:
                  - ./node_modules # location depends on npm version
@@ -66,16 +66,16 @@ jobs:
          -  run:
             name: Build Build WUF-QUICK-START
             command: |
-               ng build --prod
+              ng build --prod
          -  run:
             name: Unit Test WUF-QUICK-START
             command: |
-               ng test --karmaConfig=src/karma.conf.circleci.js
+              ng test --karmaConfig=src/karma.conf.circleci.js
          -  run:
             name: Integration Test WUF-QUICK-START
             command: |
-               ng e2e --protractorConfig=protractor.circleci.conf.js
+              ng e2e --protractorConfig=protractor.circleci.conf.js
          -  run:
             name: Tag WUF-QUICK-START
             command: |
-               ./.circleci/tag.sh
+              ./.circleci/tag.sh
