@@ -46,11 +46,11 @@ jobs:
           ttf-freefont
       - checkout
       - restore_cache:
-        keys:
-          # when lock file changes, use increasingly general patterns to restore cache
-          - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          - yarn-v1-{{ .Branch }}-
-          - node-v1-
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ .Branch }}-
+            - node-v1-
       - run:
         name: Validate version
         command: |
