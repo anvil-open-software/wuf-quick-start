@@ -1,6 +1,9 @@
-WUF Quick Start Application
+
+[![CircleCI](https://circleci.com/gh/anvil-open-software/wuf-quick-start/tree/master.svg?style=svg)](https://circleci.com/gh/anvil-open-software/wuf-quick-start/tree/master) WUF Quick Start Application
+
+Introduction
 =============================
-The WUF Quick Start Application, which is a part of the WUF repos at [https://github.com/anvil-open-software/wuf](https://github.com/anvil-open-software/wuf), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch. 
+The WUF Quick Start Application, which is a part of the WUF repos at [https://github.com/anvil-open-software/wuf](https://github.com/anvil-open-software/wuf), is intended to be used as a baseline, plain-vanilla application for quickly creating a new web-based application from scratch.
 
 
 Installation and Setup
@@ -19,12 +22,12 @@ Follow the steps below to set up your development environment and install depend
 
 #### Dependencies
 The following are dependencies for WUF development:
-* [Node.js](https://nodejs.org/en/) version 8.0.0 or greater, installed globally - A JavaScript runtime built on Chrome's V8 JavaScript engine. 
+* [Node.js](https://nodejs.org/en/) version 8.0.0 or greater, installed globally - A JavaScript runtime built on Chrome's V8 JavaScript engine.
 * [Yarn](https://yarnpkg.com/en/) version 1.10.0 or greater, installed globally - A dependency management system that replaces NPM.  Yarn is required over NPM for WUF development because of WUF's dependency on Yarn Workspaces for inter-linking package dependencies.  Do not use NPM with WUF because it has the potential to conflict with Yarn and cause problems.
 * [Angular](https://angular.io/guide/Quick Start) version 6.1.0 or greater, installed globally - This is installation includes Angular-CLI.
 * [Typescript](https://www.typescriptlang.org/) version 2.9.2 or greater, installed globally - Typescript is a typed superset of JavaScript that compiles to plain JavaScript and it is the language in which all of our Angular application development is done.
 
-### 2. Create a New Project Based on the Quick Start App 
+### 2. Create a New Project Based on the Quick Start App
 
 Clone this repo into a new project folder (e.g., `my-proj`):
 ```bash
@@ -150,7 +153,7 @@ Run unit tests on the app with:
 $ npm run test
 ```
 
-OR 
+OR
 
 ```bash
 $ yarn test
@@ -169,7 +172,7 @@ To run the application in production mode, issue the following command:
 $ npm run start:prod
 ```
 
-OR 
+OR
 
 ```bash
 $ yarn start:prod
@@ -189,7 +192,7 @@ To build your application and wrap it into a docker image, issue the following c
 $ npm run docker:build
 ```
 
-OR 
+OR
 
 ```bash
 $ yarn docker:build
@@ -207,7 +210,7 @@ You can also build your application and run it in production mode directly from 
 $ npm run docker:start
 ```
 
-OR 
+OR
 
 ```bash
 $ yarn docker:start

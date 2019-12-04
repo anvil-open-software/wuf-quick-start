@@ -6,12 +6,15 @@
 import {TestBed, ComponentFixture, async} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import {Routes} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {WufConfigurationService} from '@anviltech/wuf-ang-configuration';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { createTranslateLoader } from './_internal/translate.module';
+import { ConfigService } from './_internal/services/config.service';
 
 import {AppComponent} from './app.component';
 import {RoutesModule} from './app-routes';
@@ -40,12 +43,22 @@ describe('AppComponent', () => {
             ],
             imports: [
                 HttpClientModule,
-                RouterTestingModule.withRoutes(fake_routes)
+                RouterTestingModule.withRoutes(fake_routes),
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useFactory: (createTranslateLoader),
+                        deps: [HttpClient]
+                    },
+                    isolate: false
+                })
+
             ],
             providers: [
                 RoutesModule,
                 WufConfigurationService,
-                UserService
+                UserService,
+                ConfigService
             ]
         });
         // WebPack developers need not call compileComponents because it inlines templates and css as part of the

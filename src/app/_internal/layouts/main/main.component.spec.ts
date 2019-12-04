@@ -9,10 +9,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { createTranslateLoader } from '../../translate.module';
+import { CustomMaterialModule } from '../../material.module';
+import { ConfigService } from '../../services/config.service';
 
 import { WufConfigurationService } from '@anviltech/wuf-ang-configuration';
 import { WufNavigationModule, WufNavigationService } from '@anviltech/wuf-ang-navigation';
 import { WufLayoutModule, WufLayoutService, WufSidebarService } from '@anviltech/wuf-ang-layout';
+import { WufDrawerModule } from '@anviltech/wuf-ang-drawer';
 
 import { LayoutMainComponent } from './main.component';
 
@@ -30,13 +36,25 @@ describe('LayoutMainComponent', () => {
                 HttpClientModule,
                 WufLayoutModule,
                 WufNavigationModule,
-                HttpClientTestingModule // Mock backend for navigation service
+                WufDrawerModule,
+                HttpClientTestingModule, // Mock backend for navigation service
+                NoopAnimationsModule,
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useFactory: (createTranslateLoader),
+                        deps: [HttpClient]
+                    },
+                    isolate: false
+                }),
+                CustomMaterialModule
             ],
             providers: [
                 WufConfigurationService,
                 WufSidebarService,
                 WufLayoutService,
-                WufNavigationService
+                WufNavigationService,
+                ConfigService
             ]
         })
         .compileComponents();
