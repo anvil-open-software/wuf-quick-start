@@ -13,9 +13,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: wasvic/node_dev:1.0.0-FM-188-SNAPSHOT
-        entrypoint: /bin/sh
-        working_directory: /root/project
+      - image: node:10.15.1-alpine
     environment:
       - CHROME_BIN: /usr/lib/chromium/chrome
     steps:
@@ -40,7 +38,7 @@ jobs:
               ttf-freefont@edge
             apk add --no-cache ttf-freefont
 
-      #  chekout projectt
+      #  checkout project
       -  checkout
       - restore_cache:
           keys:
@@ -48,6 +46,10 @@ jobs:
           - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
           - yarn-v1-{{ .Branch }}-
           - node-v1-
+      - run:
+          name: Install ng
+          command: |
+            yarn global add @angular/cli@7.3.1
       - run:
           name: Validate version
           command: |
