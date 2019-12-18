@@ -17,6 +17,9 @@ jobs:
     environment:
       - CHROME_BIN: /usr/lib/chromium/chrome
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "e9:b8:29:11:c1:0c:5c:35:15:ba:de:a7:e4:0f:08:cb"
       - run:
           name: Install OS tools
           # TODO: replace with install_os_pkgs.sh script
@@ -39,13 +42,13 @@ jobs:
             apk add --no-cache ttf-freefont
 
       #  checkout project
-      -  checkout
+      - checkout
       - restore_cache:
           keys:
-          # when lock file changes, use increasingly general patterns to restore cache
-          - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          - yarn-v1-{{ .Branch }}-
-          - node-v1-
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ .Branch }}-
+            - node-v1-
       - run:
           name: Install ng
           command: |
@@ -60,7 +63,7 @@ jobs:
             yarn bootstrap
       - save_cache:
           paths:
-             - ./node_modules # location depends on npm version
+            - ./node_modules # location depends on npm version
           key: yarn-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Build Build WUF-QUICK-START
