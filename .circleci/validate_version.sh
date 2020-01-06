@@ -3,7 +3,9 @@
 set -ev
 echo "Executing validate_version"
 package_version=`npx -c 'echo "$npm_package_version"'`
+echo "package_version = "$package_version
 changelog_version=`sed -nE 's/## \[([0-9]+(\.[0-9]+)+)\]( +- +[0-9]+-[0-9]+-[0-9]+)?/\1/p' CHANGELOG.md | head -n 1`
+echo "changelog_version = "$changelog_version
 if [[ ${package_version} != "${changelog_version}" ]]; then
     echo "🚫 Versions in package.json (${package_version}) and CHANGELOG.md (${changelog_version}) are different"
     exit 1
