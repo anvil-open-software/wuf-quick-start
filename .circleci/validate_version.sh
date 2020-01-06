@@ -24,6 +24,6 @@ if [[ ! -z $CI_PULL_REQUEST ]] ; then
       exit 2
   fi
   echo "✅ Pull request introduces version ${package_version}"
-elif
+elif; then
   echo "✅ Not a pull request build"
 fi
