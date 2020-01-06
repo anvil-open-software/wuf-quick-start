@@ -3,6 +3,7 @@
 set -ev
 echo "Executing validate_version"
 
+echo "Pull Request = "$CI_PULL_REQUEST
 package_version=$(cat package.json \
   | grep version \
   | head -1 \
