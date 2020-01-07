@@ -78,6 +78,10 @@ jobs:
           command: |
             ng e2e --protractorConfig=protractor.circleci.conf.js
       - run:
+          name: Build docker image
+          command: |
+            yarn build:docker
+      - run:
           name: Tag WUF-QUICK-START
           command: |
             ./.circleci/tag.sh
