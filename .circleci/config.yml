@@ -19,7 +19,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e9:b8:29:11:c1:0c:5c:35:15:ba:de:a7:e4:0f:08:cb"
+            - "cb:68:f0:59:fe:8b:90:6a:42:91:0a:2d:66:65:89:96b"
       - run:
           name: Install OS tools
           # TODO: replace with install_os_pkgs.sh script
