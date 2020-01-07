@@ -4,6 +4,12 @@ Keeps track of changes made to the base building and packaging of the common com
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.2] - 2020-01-07
+### Fixed
+- building docker image should be done on the image itself
+- removed redundant npm script 'docker:inspect', use 'docker:cli' instead
+- removed redundant npm script 'docker:build', use 'build:docker' instead
+
 ## [2.2.1] - 2019-12-18
 ### Fixed
 - without a deploy key with r/w access, pushing the tag will fail the build

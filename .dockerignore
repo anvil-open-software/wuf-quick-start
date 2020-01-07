@@ -1,0 +1,18 @@
+# project file (test,.doc, ..)
+configuration/
+e2e/
+dist/
+node_modules/
+protractor.conf.js
+protractor.circleci.conf.js
+karma.conf.js
+src/karma.conf.circleci.js
+CHANGELOG.md
+README.md
+TODO.md
+# IDE, build
+.circleci/
+.idea/
+*.iml
+.gitignore
+.yarnrc

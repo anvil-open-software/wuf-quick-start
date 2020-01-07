@@ -30,6 +30,7 @@ jobs:
             apk add tar
             apk add chromium
             apk add chromium-chromedriver
+            apk add docker-cli --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
             apk add ca-certificates
             apk update && apk upgrade && \
             echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
@@ -77,6 +78,11 @@ jobs:
           name: Integration Test WUF-QUICK-START
           command: |
             ng e2e --protractorConfig=protractor.circleci.conf.js
+      - setup_remote_docker
+      - run:
+          name: Build docker image
+          command: |
+            yarn build:docker
       - run:
           name: Tag WUF-QUICK-START
           command: |
