@@ -1,0 +1,11 @@
+{
+  "id": "wuf-quick-start",
+  "name": "WUF Quick Start",
+  "copyrightName": "ACME, Inc.",
+  "navigation": {
+    "position": "left",
+    "iconPosition": "left",
+    "alignment": "left"
+  },
+  "language": "en"
+}
