@@ -11,7 +11,7 @@ const globalJson = JSON.parse(fs.readFileSync(globalConfigFile).toString());
 const config = globalJson;
 
 // Get environment-specific overrides
-const envConfigFileName = process.env.hasOwnProperty('CONFIG_FILE') ? process.env.CONFIG_FILE : 'localConfig.json';
+const envConfigFileName = 'localConfig.json';
 const envConfigFile = path.join('./', 'configuration', envConfigFileName);
 const envJson = JSON.parse(fs.readFileSync(envConfigFile).toString());
 

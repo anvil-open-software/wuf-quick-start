@@ -19,7 +19,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e9:b8:29:11:c1:0c:5c:35:15:ba:de:a7:e4:0f:08:cb"
+            - "cb:68:f0:59:fe:8b:90:6a:42:91:0a:2d:66:65:89:96b"
       - run:
           name: Install OS tools
           # TODO: replace with install_os_pkgs.sh script
@@ -30,6 +30,7 @@ jobs:
             apk add tar
             apk add chromium
             apk add chromium-chromedriver
+            apk add docker-cli --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
             apk add ca-certificates
             apk update && apk upgrade && \
             echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
@@ -77,6 +78,11 @@ jobs:
           name: Integration Test WUF-QUICK-START
           command: |
             ng e2e --protractorConfig=protractor.circleci.conf.js
+      - setup_remote_docker
+      - run:
+          name: Build docker image
+          command: |
+            yarn build:docker
       - run:
           name: Tag WUF-QUICK-START
           command: |
